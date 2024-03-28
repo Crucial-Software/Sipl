@@ -1,0 +1,655 @@
+{
+  "project_info": {
+    "project_number": "766856806876",
+    "firebase_url": "https://apanostore.firebaseio.com",
+    "project_id": "apanostore",
+    "storage_bucket": "apanostore.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766856806876:android:f8d09ecf8c20d098cecf19",
+        "android_client_info": {
+          "package_name": "com.csitpark.buysellrent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766856806876-76c0l6noocnno5eavrb3b3pac7tqtgmi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.csitpark.buysellrent",
+            "certificate_hash": "d38cc419a2f8dffa27f51cb1b3f128b03a34713a"
+          }
+        },
+        {
+          "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEHkncM-mgbzoz89PyhOsKJ65kAEy6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766856806876-8f18u18e39k2kndpdo62f2ug61ipc6bu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classygyanpaper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766856806876:android:5fd60d28d7ccb5c6cecf19",
+        "android_client_info": {
+          "package_name": "com.csitpark.classygyan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766856806876-67t2ddtam1a7kov0ah3h70te8fmqpvds.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.csitpark.classygyan",
+            "certificate_hash": "d38cc419a2f8dffa27f51cb1b3f128b03a34713a"
+          }
+        },
+        {
+          "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEHkncM-mgbzoz89PyhOsKJ65kAEy6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766856806876-8f18u18e39k2kndpdo62f2ug61ipc6bu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classygyanpaper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766856806876:android:ace8f251825746c1cecf19",
+        "android_client_info": {
+          "package_name": "com.csitpark.ehealth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766856806876-kpunloebf6t4j1ageak108g0vaprkp9j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.csitpark.ehealth",
+            "certificate_hash": "d38cc419a2f8dffa27f51cb1b3f128b03a34713a"
+          }
+        },
+        {
+          "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEHkncM-mgbzoz89PyhOsKJ65kAEy6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766856806876-8f18u18e39k2kndpdo62f2ug61ipc6bu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classygyanpaper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766856806876:android:24d12f78ddacab7fcecf19",
+        "android_client_info": {
+          "package_name": "com.csitpark.firebasesaveretrivedataex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766856806876-2rra1amhia3vkubal1rcqmlm7h4cq4ps.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.csitpark.firebasesaveretrivedataex",
+            "certificate_hash": "d38cc419a2f8dffa27f51cb1b3f128b03a34713a"
+          }
+        },
+        {
+          "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEHkncM-mgbzoz89PyhOsKJ65kAEy6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766856806876-8f18u18e39k2kndpdo62f2ug61ipc6bu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classygyanpaper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766856806876:android:3b9b43d6dad6d358cecf19",
+        "android_client_info": {
+          "package_name": "com.csitpark.gnanbhandar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEHkncM-mgbzoz89PyhOsKJ65kAEy6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766856806876-8f18u18e39k2kndpdo62f2ug61ipc6bu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classygyanpaper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766856806876:android:bba4af3903a84b48cecf19",
+        "android_client_info": {
+          "package_name": "com.csitpark.jeepractice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766856806876-gfcpqfccfemthgedkfslg0eo0nub9bmv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.csitpark.jeepractice",
+            "certificate_hash": "d38cc419a2f8dffa27f51cb1b3f128b03a34713a"
+          }
+        },
+        {
+          "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEHkncM-mgbzoz89PyhOsKJ65kAEy6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766856806876-8f18u18e39k2kndpdo62f2ug61ipc6bu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classygyanpaper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766856806876:android:b7ac9568fdd75caececf19",
+        "android_client_info": {
+          "package_name": "com.csitpark.mandirseva"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766856806876-ucc1vokp5qvmhmtfona9jf4bjcmbfd2m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.csitpark.mandirseva",
+            "certificate_hash": "d3f4cefd37caa3f83d06156d7202366b280a4bc6"
+          }
+        },
+        {
+          "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEHkncM-mgbzoz89PyhOsKJ65kAEy6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766856806876-8f18u18e39k2kndpdo62f2ug61ipc6bu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classygyanpaper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766856806876:android:64a6fdacde659071cecf19",
+        "android_client_info": {
+          "package_name": "com.csitpark.mydata"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEHkncM-mgbzoz89PyhOsKJ65kAEy6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766856806876-8f18u18e39k2kndpdo62f2ug61ipc6bu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classygyanpaper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766856806876:android:45508dd243bdd670cecf19",
+        "android_client_info": {
+          "package_name": "com.csitpark.sipl"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766856806876-mqva3qvc7259dap7llcetdvah9vg02vj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.csitpark.sipl",
+            "certificate_hash": "d38cc419a2f8dffa27f51cb1b3f128b03a34713a"
+          }
+        },
+        {
+          "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEHkncM-mgbzoz89PyhOsKJ65kAEy6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766856806876-8f18u18e39k2kndpdo62f2ug61ipc6bu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classygyanpaper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766856806876:android:49c63c1eefc91fdccecf19",
+        "android_client_info": {
+          "package_name": "com.csitpark.vtc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766856806876-2147s2gobfjfn8nivscm224jlfo8dtv0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.csitpark.vtc",
+            "certificate_hash": "d3f4cefd37caa3f83d06156d7202366b280a4bc6"
+          }
+        },
+        {
+          "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEHkncM-mgbzoz89PyhOsKJ65kAEy6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766856806876-8f18u18e39k2kndpdo62f2ug61ipc6bu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classygyanpaper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766856806876:android:3c6a5a257b06b2e1cecf19",
+        "android_client_info": {
+          "package_name": "com.example.appcam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766856806876-o6fvdlsurvu1reb2nmo7s2oou70v5q6n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.appcam",
+            "certificate_hash": "d3f4cefd37caa3f83d06156d7202366b280a4bc6"
+          }
+        },
+        {
+          "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEHkncM-mgbzoz89PyhOsKJ65kAEy6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766856806876-8f18u18e39k2kndpdo62f2ug61ipc6bu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classygyanpaper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766856806876:android:6a02704ce79697cececf19",
+        "android_client_info": {
+          "package_name": "com.example.buysellrent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766856806876-oj0nq6lf71sbjjrt2ko6srga1ap2ngoj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.buysellrent",
+            "certificate_hash": "d3f4cefd37caa3f83d06156d7202366b280a4bc6"
+          }
+        },
+        {
+          "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEHkncM-mgbzoz89PyhOsKJ65kAEy6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766856806876-8f18u18e39k2kndpdo62f2ug61ipc6bu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classygyanpaper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766856806876:android:0ccfe3be151b68aececf19",
+        "android_client_info": {
+          "package_name": "com.example.classygyanpaper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766856806876-5q48d94ged5l5btfeipvpbvgmsgk13p0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.classygyanpaper",
+            "certificate_hash": "d3f4cefd37caa3f83d06156d7202366b280a4bc6"
+          }
+        },
+        {
+          "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEHkncM-mgbzoz89PyhOsKJ65kAEy6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766856806876-8f18u18e39k2kndpdo62f2ug61ipc6bu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classygyanpaper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766856806876:android:e7d8bb28174626bfcecf19",
+        "android_client_info": {
+          "package_name": "com.example.cstraining"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766856806876-o32s752uv3po7cuev78mrcb39am6ihe9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cstraining",
+            "certificate_hash": "d3f4cefd37caa3f83d06156d7202366b280a4bc6"
+          }
+        },
+        {
+          "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEHkncM-mgbzoz89PyhOsKJ65kAEy6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766856806876-8f18u18e39k2kndpdo62f2ug61ipc6bu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classygyanpaper"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766856806876:android:68902d6666e9c0b8cecf19",
+        "android_client_info": {
+          "package_name": "com.example.vtccare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766856806876-5fnneptdn1bihk860p1pqk552sstml0v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vtccare",
+            "certificate_hash": "d3f4cefd37caa3f83d06156d7202366b280a4bc6"
+          }
+        },
+        {
+          "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEHkncM-mgbzoz89PyhOsKJ65kAEy6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766856806876-berlebai197416cimcjv4qsq7tomaa8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766856806876-8f18u18e39k2kndpdo62f2ug61ipc6bu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.classygyanpaper"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
