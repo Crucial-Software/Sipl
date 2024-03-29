@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, TouchableHighlight } from 'react-native'
 import { Colors, Fonts, FontSize } from '../common/ConstantStyles'
 import moment from 'moment';
 import CheckBox from '@react-native-community/checkbox';
 import WorkAssignListItem from './WorkAssignListItem';
+import { Icon } from 'react-native-elements';
+import { API_BASE } from '../setupProxy';
 import NoDataFound from '../common/NoDataFound';
 
 type ItemTypes = {
@@ -117,6 +119,24 @@ const AllEmergencyListItem = ({ item, onSelect, isCheckbox, functionGetWork }: I
                     </View>
                 </View>
 
+                <View style={{ flexDirection: "row" }}>
+
+                    <TouchableHighlight onPress={() => {handleShowDetails(); getAttachments();}} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
+                        <View style={{ flexDirection: "row", alignItems: "center" }}>
+                            <Icon name="image" type="font-awesome" size={12} color={Colors.primary} />
+                            <Text style={styles.buttonTextPhoto}>View Images</Text>
+                        </View>
+                    </TouchableHighlight>
+
+                    <TouchableHighlight onPress={() => { handleCameraSelection() }} style={styles.touchableOpacityPhoto} underlayColor={Colors.primaryLight2}>
+                        <View style={{ flexDirection: "row", alignItems: "center" }}>
+                            <Icon name="camera" type="font-awesome" size={12} color={Colors.primary} />
+                            <Text style={styles.buttonTextPhoto}>Take Photo</Text>
+                        </View>
+                    </TouchableHighlight>
+
+                </View>
+
                 {item.works.length != 0 ?
                     <View>
                         <Text style={styles.itemTextHeadingWork} onPress={() => { handleShowDetails() }}>Work Details</Text>
@@ -142,7 +162,6 @@ const AllEmergencyListItem = ({ item, onSelect, isCheckbox, functionGetWork }: I
 
                             </View>
                             : null
-
                         }
                     </View>
                     : null
@@ -233,5 +252,29 @@ const styles = StyleSheet.create({
         flex: 1,
         color: Colors.black,
         fontSize: FontSize.smallMedium,
+    },
+    touchableOpacityPhoto: {
+        width: 100,
+        marginVertical: 2,
+        marginHorizontal: 5,
+        borderRadius: 50,
+        borderWidth: 1,
+        borderColor: Colors.primary,
+        padding: 5,
+    },
+    touchableOpacityImages: {
+        width: 110,
+        marginVertical: 2,
+        marginHorizontal: 5,
+        borderRadius: 50,
+        borderWidth: 1,
+        borderColor: Colors.primary,
+        padding: 5,
+    },
+    buttonTextPhoto: {
+        color: Colors.primary,
+        textAlign: "center",
+        fontFamily: Fonts.semiBold,
+        marginStart: 5
     },
 });

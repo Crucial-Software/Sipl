@@ -8,70 +8,59 @@ import Snackbar from 'react-native-snackbar';
 import NoDataFound from '../common/NoDataFound';
 import NotificationsListItem from '../components/NotificationsListItem';
 
-const Data = [
-    { title: "Notification Heading 1", content: "Notification Content1", date: "2024-02-21" },
-    { title: "Notification Heading 2", content: "Notification Content2", date: "2024-02-20" },
-    { title: "Notification Heading 3", content: "Notification Content3", date: "2024-02-19" },
-    { title: "Notification Heading 4", content: "Notification Content4", date: "2024-02-18" },
-    { title: "Notification Heading 5", content: "Notification Content5", date: "2024-02-17" },
-    { title: "Notification Heading 6", content: "Notification Content6", date: "2024-02-21" },
-    { title: "Notification Heading 7", content: "Notification Content7", date: "2024-02-20" },
-    { title: "Notification Heading 8", content: "Notification Content8", date: "2024-02-19" },
-    { title: "Notification Heading 9", content: "Notification Content9", date: "2024-02-18" },
-    { title: "Notification Heading 10", content: "Notification Content10", date: "2024-02-17" },
-]
-
 const Notifications = ({ navigation }) => {
 
     const [loading, setLoading] = useState(false);
     const [notificationsList, setNotificationsList] = useState([]);
 
     useEffect(() => {
-
-        setNotificationsList(Data);
-
-        //getNotifications();
-
+        getData();
     }, []);
 
-    
+     const getData = async () => {
 
-    const getNotifications = async () => {
+            await AsyncStorage.getItem('userEmpDetails')
+                .then(stringifiedEmpDetails => {
+                    const parsedEmpDetails = JSON.parse(stringifiedEmpDetails);
+                    if (!parsedEmpDetails || typeof parsedEmpDetails !== 'object') return;
+                    getNotifications(parsedEmpDetails[0].locations_id, parsedEmpDetails[0].id);
+                })
+                .catch(err => {
+                    console.warn('Error restoring Emp Details from async');
+                    console.warn(err);
+                });
+
+        };
+
+    const getNotifications = async (locid, staffid) => {
 
         setLoading(true);
 
-        try {
+        let toInput = {
+            staffs_id: staffid,
+            locations_id: locid,
+        };
 
-            const sId = await AsyncStorage.getItem('staffId');
+        await fetch(`${API_BASE}/app/notification/notificationlist`, {
+              method: "POST",
+              headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+              body: JSON.stringify(toInput)
+        })
+              .then((response) => response.json())
+              .then((response) => {
+                   setLoading(false);
+                   if (response.list) {
+                        setNotificationsList(response.list);
+                   } else {
+                        Snackbar.show({ text: '' + response.message, duration: Snackbar.LENGTH_SHORT })
+                   }
+              })
+              .catch((error) => {
+                    setLoading(false);
+                    console.error('Notifications There was an error!', error);
+                    Snackbar.show({ text: 'Error Occured. Please Try again.' + error, duration: Snackbar.LENGTH_SHORT })
+              })
 
-            if (sId) {
-                let toInput = {
-                    staffs_id: sId,
-                };
-
-                await fetch(`${API_BASE}/app/attendance/listbymonth`, {
-                    method: "POST",
-                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                    body: JSON.stringify(toInput)
-                })
-                    .then((response) => response.json())
-                    .then((response) => {
-                        setLoading(false);
-                        if (response.code === 1) {
-                            setNotificationsList(response.model);
-                        } else {
-                            Snackbar.show({ text: '' + response.message, duration: Snackbar.LENGTH_SHORT })
-                        }
-                    })
-                    .catch((error) => {
-                        setLoading(false);
-                        console.error('Notifications There was an error!', error);
-                        Snackbar.show({ text: 'Error Occured. Please Try again. ' + error, duration: Snackbar.LENGTH_SHORT })
-                    })
-            }
-        } catch (e) {
-            console.log("Not able to fetch sId");
-        }
     }
 
     return (
@@ -105,5 +94,4 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         flex: 1,
     },
-
 });

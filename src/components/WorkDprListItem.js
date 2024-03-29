@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, Alert, TouchableHighlight, Image, TextInput, ActivityIndicator, FlatList } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Alert, TouchableHighlight, Image, TextInput, FlatList } from 'react-native'
 import { Colors, Fonts } from '../common/ConstantStyles'
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -11,17 +11,19 @@ import NoDataFound from '../common/NoDataFound';
 
 const WorkDprListItem = ({ item, index, navigation, staffId, functionGetWork }) => {
 
-    const [loading, setLoading] = useState(false);
-
     const [cameraPhoto, setCameraPhoto] = useState(null);
     const [cameraPhotoUri, setCameraPhotoUri] = useState("");
     const [remarks, setRemarks] = useState("");
 
     const [workImageList, setWorkImageList] = useState([]);
 
-    const getAttachments = async () => {
+    const [showDetails, setShowDetails] = useState(false);
 
-        setLoading(true);
+    const handleShowDetails = () => {
+         setShowDetails(!showDetails);
+    }
+
+    const getAttachments = async () => {
 
         let toInput = {
             works_id: item.works_id,
@@ -33,21 +35,13 @@ const WorkDprListItem = ({ item, index, navigation, staffId, functionGetWork }) 
             body: JSON.stringify(toInput)
         }).then((response) => response.json())
             .then((response) => {
-                setLoading(false);
-                console.log("workImageList Lenght: " + response.model.length);
-                if (response.model.length !== 0) {
-                    setWorkImageList([]);
-                } else{
+                if (response.model) {
                     setWorkImageList(response.model);
                 }
-
             }).catch((error) => {
-                setLoading(false);
                 console.error('WORK DPR GET ATTACHMENTS There was an error!', error);
                 Snackbar.show({ text: 'Error Occured. Please Try again. ' + error, duration: Snackbar.LENGTH_SHORT })
             })
-
-
     }
 
 
@@ -217,7 +211,7 @@ const WorkDprListItem = ({ item, index, navigation, staffId, functionGetWork }) 
 
                 <View style={{ flexDirection: "row" }}>
 
-                    <TouchableHighlight onPress={getAttachments} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
+                    <TouchableHighlight onPress={() => {handleShowDetails(); getAttachments();}} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
                         <View style={{ flexDirection: "row", alignItems: "center" }}>
                             <Icon name="image" type="font-awesome" size={12} color={Colors.primary} />
                             <Text style={styles.buttonTextPhoto}>View Images</Text>
@@ -233,32 +227,29 @@ const WorkDprListItem = ({ item, index, navigation, staffId, functionGetWork }) 
 
                 </View>
 
+                {showDetails ?
+                     <FlatList
+                           data={workImageList}
+                           ListEmptyComponent={<NoDataFound />}
+                           renderItem={({ item, index }) => (
+                                <View style={styles.imageContent}>
+                                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                         <View>
+                                            <TouchableHighlight onPress={() => { navigation.navigate("View Image File", { file: `https://shrikarniinfra.in/uploads/works/${item.image}` }) }}>
+                                                <Image style={styles.imageStyle} source={{ uri: `https://shrikarniinfra.in/uploads/works/${item.image}` }} />
+                                                </TouchableHighlight>
+                                         </View>
 
-                {workImageList.length !== 0 ?
-                    <FlatList
-                        data={workImageList}
-                        renderItem={({ item, index }) => (
-                            <View style={styles.imageContent}>
-                                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                    <View>
-                                        <TouchableHighlight onPress={() => { navigation.navigate("View Image File", { file: `https://shrikarniinfra.in/uploads/works/${item.image}` }) }}>
-                                            <Image style={styles.imageStyle} source={{ uri: `https://shrikarniinfra.in/uploads/works/${item.image}` }} />
-                                        </TouchableHighlight>
-                                    </View>
-
-                                    <View style={styles.contentViewStyle}>
-                                        <Text style={styles.textHeading}>Remarks</Text>
-                                        <Text style={styles.textContent}>{item.remarks}</Text>
+                                         <View style={styles.contentViewStyle}>
+                                             <Text style={styles.textHeading}>Remarks</Text>
+                                             <Text style={styles.textContent}>{item.remarks}</Text>
+                                         </View>
                                     </View>
                                 </View>
-                            </View>
-                        )}
-                    />
-                    :
-                    null
+                           )}
+                     />
+                     : null
                 }
-
-                {loading ? <ActivityIndicator /> : null}
 
                 {cameraPhotoUri ?
                     <View style={styles.imageContent}>
@@ -369,7 +360,7 @@ const styles = StyleSheet.create({
         padding: 5,
     },
     touchableOpacityImages: {
-        width: 120,
+        width: 110,
         marginVertical: 2,
         marginHorizontal: 5,
         borderRadius: 50,

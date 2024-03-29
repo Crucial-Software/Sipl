@@ -16,8 +16,8 @@ const NotificationsListItem = ({ item, index, navigation }) => {
 
                 <View style={styles.outerView}>
                     <Text style={styles.itemTextHeading}>{item.title}</Text>
-                    <Text style={styles.itemTextContent}>{item.content}</Text>
-                    <Text style={styles.itemTextContentSmall}>{moment(item.date).format("DD-MMM-YYYY")}</Text>
+                    <Text style={styles.itemTextContent}>{item.details}</Text>
+                    <Text style={styles.itemTextContentSmall}>{moment(item.created_at).format("DD-MMM-YYYY")}</Text>
                 </View>
 
             </TouchableOpacity>

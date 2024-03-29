@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert, TouchableHighlight, Image, TextInput, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, TouchableHighlight, Image, TextInput, FlatList } from 'react-native';
 import { Colors, Fonts } from '../common/ConstantStyles';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -7,10 +7,9 @@ import { launchCamera } from 'react-native-image-picker';
 import Snackbar from 'react-native-snackbar';
 import { Icon } from 'react-native-elements';
 import { API_BASE } from '../setupProxy';
+import NoDataFound from '../common/NoDataFound';
 
 const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork }) => {
-
-    const [loading, setLoading] = useState(false);
 
     const [cameraPhoto, setCameraPhoto] = useState(null);
     const [cameraPhotoUri, setCameraPhotoUri] = useState("");
@@ -18,9 +17,13 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
 
     const [workImageList, setWorkImageList] = useState([]);
 
-    const getAttachments = async () => {
+    const [showDetails, setShowDetails] = useState(false);
 
-        setLoading(true);
+    const handleShowDetails = () => {
+         setShowDetails(!showDetails);
+    }
+
+    const getAttachments = async () => {
 
         let toInput = {
             works_id: item.works_id,
@@ -32,14 +35,10 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
             body: JSON.stringify(toInput)
         }).then((response) => response.json())
             .then((response) => {
-                setLoading(false);
-
                 if (response.model) {
                     setWorkImageList(response.model);
                 }
-
             }).catch((error) => {
-                setLoading(false);
                 console.error('WORK DPR GET ATTACHMENTS There was an error!', error);
                 Snackbar.show({ text: 'Error Occured. Please Try again. ' + error, duration: Snackbar.LENGTH_SHORT })
             })
@@ -211,7 +210,7 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
 
                 <View style={{ flexDirection: "row" }}>
 
-                    <TouchableHighlight onPress={getAttachments} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
+                    <TouchableHighlight onPress={() => {handleShowDetails(); getAttachments();}} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
                         <View style={{ flexDirection: "row", alignItems: "center" }}>
                             <Icon name="image" type="font-awesome" size={12} color={Colors.primary} />
                             <Text style={styles.buttonTextPhoto}>View Images</Text>
@@ -227,9 +226,10 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
 
                 </View>
 
-                {workImageList ?
+                {showDetails ?
                     <FlatList
                         data={workImageList}
+                        ListEmptyComponent={<NoDataFound />}
                         renderItem={({ item, index }) => (
                             <View style={styles.imageContent}>
                                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -247,12 +247,8 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
                             </View>
                         )}
                     />
-                    :
-                    null
+                    : null
                 }
-
-                {loading ? <ActivityIndicator /> : null}
-
 
                 {cameraPhotoUri ?
                     <View style={styles.imageContent}>
@@ -269,7 +265,6 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
                                 <View style={styles.viewStyle} />
                             </View>
 
-
                             <TouchableOpacity onPress={() => { setCameraPhoto(null); setCameraPhotoUri(""); }}>
                                 <Icon name="cross" type="entypo" size={25} color="#F87171" />
                             </TouchableOpacity>
@@ -285,11 +280,11 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
                             <TouchableHighlight onPress={() => { saveImage() }} style={styles.touchableOpacity}>
                                 <Text style={styles.buttonText}>Save</Text>
                             </TouchableHighlight>
-                            : null}
+                        : null}
                     </View>
                 </View>
 
-            </TouchableOpacity >
+            </TouchableOpacity>
         </View >
 
     );

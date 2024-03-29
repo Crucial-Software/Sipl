@@ -356,7 +356,6 @@ const AllEmergency = ({ navigation }) => {
                             <View style={styles.viewStyle} />
                         </View>
 
-
                         <TouchableOpacity onPress={() => { searchByDate(); }} style={{ marginTop: 10, marginStart: 5, alignSelf: "center", }}>
                             <View style={{ backgroundColor: Colors.primary, padding: 10, borderWidth: 1, borderRadius: 5, borderColor: Colors.primary }}>
                                 <Icon name="search" type="font-awesome" size={20} color="#fff" />
@@ -402,6 +401,23 @@ const AllEmergency = ({ navigation }) => {
                         </View>
 
                     </View>
+
+                    <FlatList
+                        data={filterWorkList}
+                        keyExtractor={(item, index) => { return index.toString(); }}
+                        renderItem={({ item, index }) => {
+                            return (
+                                <AllEmergencyListItem
+                                    item={item}
+                                    onSelect={() => { onSelect(index); }}
+                                    isCheckbox={true}
+                                    functionGetWork={() => { getWork(locationId); }}
+                                />
+                            );
+                        }}
+                        showsHorizontalScrollIndicator={false}
+                        ListEmptyComponent={<NoDataFound />}
+                    />
 
                     <View style={styles.centeredView}>
                         <Modal
@@ -466,23 +482,6 @@ const AllEmergency = ({ navigation }) => {
                             </View>
                         </Modal>
                     </View>
-
-                    <FlatList
-                        data={filterWorkList}
-                        keyExtractor={(item, index) => { return index.toString(); }}
-                        renderItem={({ item, index }) => {
-                            return (
-                                <AllEmergencyListItem
-                                    item={item}
-                                    onSelect={() => { onSelect(index); }}
-                                    isCheckbox={true}
-                                    functionGetWork={() => { getWork(locationId); }}
-                                />
-                            );
-                        }}
-                        showsHorizontalScrollIndicator={false}
-                        ListEmptyComponent={<NoDataFound />}
-                    />
 
                     <TouchableHighlight style={styles.icon} onPress={() => { handleAssignWork() }} underlayColor={Colors.primaryLight2}>
                         <View>

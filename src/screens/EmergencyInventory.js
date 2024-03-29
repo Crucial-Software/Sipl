@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator, TouchableHighlight, PermissionsAndroid, Image, Alert } from 'react-native'
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator, TouchableHighlight, PermissionsAndroid, Image, Alert, TextInput } from 'react-native'
 import { Colors, FontSize, Fonts } from '../common/ConstantStyles';
 import { ScrollView } from "react-native-gesture-handler";
 import { API_BASE } from '../setupProxy';
@@ -31,11 +31,13 @@ const EmergencyInventory = ({ navigation }) => {
     const [shiftFocus, setShiftFocus] = useState(false);
     const [shiftSelected, setShiftSelected] = useState("");
 
-    const [cameraPhoto, setCameraPhoto] = useState("");
+    const [cameraPhoto, setCameraPhoto] = useState(null);
     const [cameraPhotoUri, setCameraPhotoUri] = useState("");
 
     const [staffId, setStaffId] = useState(null);
     const [userToken, setUserToken] = useState("");
+
+    const [remarks, setRemarks] = useState("");
 
     useEffect(() => {
 
@@ -118,7 +120,6 @@ const EmergencyInventory = ({ navigation }) => {
         }
     };
 
-
     const [date, setDate] = useState(new Date());
 
     const onDateChange = (event, selectedDate) => {
@@ -136,41 +137,6 @@ const EmergencyInventory = ({ navigation }) => {
         });
     };
 
-    const requestCameraPermission = async () => {
-        if (Platform.OS === 'android') {
-            try {
-                const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA,
-                    {
-                        title: 'Camera Permission',
-                        message: 'App needs camera permission',
-                    },
-                );
-                return granted === PermissionsAndroid.RESULTS.GRANTED;
-            } catch (err) {
-                console.warn(err);
-                return false;
-            }
-        } else return true;
-    };
-
-    const requestExternalWritePermission = async () => {
-        if (Platform.OS === 'android') {
-            try {
-                const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-                    {
-                        title: 'External Storage Write Permission',
-                        message: 'App needs write permission',
-                    },
-                );
-                return granted === PermissionsAndroid.RESULTS.GRANTED;
-            } catch (err) {
-                console.warn(err);
-                Snackbar.show({ text: 'Error Occurred', duration: Snackbar.LENGTH_SHORT })
-            }
-            return false;
-        } else return true;
-    };
-
     const handleCameraSelection = async () => {
 
         let options = {
@@ -178,9 +144,7 @@ const EmergencyInventory = ({ navigation }) => {
             saveToPhotos: true,
             includeBase64: true,
         };
-        // let isCameraPermitted = await requestCameraPermission();
-        // let isStoragePermitted = await requestExternalWritePermission();
-        // if (isCameraPermitted && isStoragePermitted) {
+
             launchCamera(options, (response) => {
                 if (response.didCancel) {
                     Snackbar.show({ text: 'No Image Captured', duration: Snackbar.LENGTH_SHORT })
@@ -204,20 +168,14 @@ const EmergencyInventory = ({ navigation }) => {
                 setCameraPhoto(response.assets[0]);
                 setCameraPhotoUri(response.assets[0].uri);
             });
-        // }
+
     };
 
     const saveImage = () => {
 
         console.log("FromDate: " + moment(date).format("DD-MMM-YYYY") + " Shift: " + shiftSelected);
 
-        if (shiftSelected == null || shiftSelected === "" || shiftSelected === "- Select -") {
-            Snackbar.show({ text: 'Please select shift', duration: Snackbar.LENGTH_SHORT })
-        }
-        else if (cameraPhoto === "" || cameraPhotoUri === "") {
-            Snackbar.show({ text: 'Please capture image.', duration: Snackbar.LENGTH_SHORT })
-        } else {
-            Alert.alert(
+        Alert.alert(
                 'Save Image', 'Are you sure you want to upload this image?',
                 [
                     { text: 'Cancel', onPress: () => Snackbar.show({ text: 'No Image Saved', duration: Snackbar.LENGTH_SHORT }) },
@@ -225,50 +183,89 @@ const EmergencyInventory = ({ navigation }) => {
                 ], {
                 cancelable: false,
             },
-            );
-        }
+        );
+
+//        if (shiftSelected == null || shiftSelected === "" || shiftSelected === "- Select -") {
+//            Snackbar.show({ text: 'Please select shift', duration: Snackbar.LENGTH_SHORT })
+//        }
+//        else if (cameraPhoto === "" || cameraPhotoUri === "") {
+//            Snackbar.show({ text: 'Please capture image.', duration: Snackbar.LENGTH_SHORT })
+//        } else {
+//            Alert.alert(
+//                'Save Image', 'Are you sure you want to upload this image?',
+//                [
+//                    { text: 'Cancel', onPress: () => Snackbar.show({ text: 'No Image Saved', duration: Snackbar.LENGTH_SHORT }) },
+//                    { text: 'OK', onPress: () => uploadDocumentsToDatabase(), },
+//                ], {
+//                cancelable: false,
+//            },
+//            );
+//        }
     }
 
-    const uploadDocumentsToDatabase = () => {
+    const uploadDocumentsToDatabase = async () => {
+
+        setLoading(true);
+
+
 
         const formData = new FormData();
 
-        formData.append('staffs_id', staffId);
-        formData.append('date', moment(date).format("YYYY-MM-DD[T]HH:mm"))
-        formData.append('shift', shiftSelected)
-        formData.append("file", cameraPhoto)
+        formData.append('image', {
+            uri: cameraPhoto.uri,
+            type: cameraPhoto.type,
+            name: cameraPhoto.fileName,
+            size: cameraPhoto.fileSize,
+        });
+        formData.append('staffs_id', "8");
+        formData.append('works_id', "4774");
+        formData.append('remarks', "Emer Inv. Photo at 28-03")
 
-        //uploadAllDocuments(formData);
-    }
-
-    const uploadAllDocuments = (formData) => {
+        console.log("form data: " + JSON.stringify(formData));
 
         const requestOptions = {
             method: 'POST',
+            body: formData,
             headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': '' + userToken,
                 'Accept': 'application/json',
+                'content-type': 'multipart/form-data',
             },
-            body: formData
         };
 
-        fetch(`${API_BASE}/patientappointmentapplication/uploaddocuments`, requestOptions)
+        fetch(`${API_BASE}/app/work/workphoto`, requestOptions)
             .then(res => {
+                setLoading(false);
                 if (res.ok) {
-                    Snackbar.show({ text: 'Documents Uploaded Successfully', duration: Snackbar.LENGTH_SHORT })
-                    clearFields();
+                    setCameraPhoto(null);
+                    setCameraPhotoUri("");
                 } else {
-                    Snackbar.show({ text: 'Documents not uploaded. Please try again. ', duration: Snackbar.LENGTH_SHORT })
-                    clearFields();
+                    setCameraPhoto(null);
+                    setCameraPhotoUri("");
                 }
             })
             .catch(error => {
+                setLoading(false);
                 Snackbar.show({ text: 'Error occured while uploading. Please try again. ', duration: Snackbar.LENGTH_SHORT })
                 console.log("error : " + error);
-                clearFields();
+                setCameraPhoto(null);
+                setCameraPhotoUri("");
             });
+
     }
+
+
+//    const uploadDocumentsToDatabase = () => {
+//
+//        const formData = new FormData();
+//
+//        formData.append('staffs_id', staffId);
+//        formData.append('date', moment(date).format("YYYY-MM-DD[T]HH:mm"))
+//        formData.append('shift', shiftSelected)
+//        formData.append("file", cameraPhoto)
+//
+//        //uploadAllDocuments(formData);
+//    }
+//Static Work ID Will be 4774 for Photo of Emergency Stock
 
     const clearFields = () => {
         setCameraPhoto("");
@@ -277,6 +274,7 @@ const EmergencyInventory = ({ navigation }) => {
         setShiftFocus(false);
         setShiftValue(null);
         setShiftSelected("");
+        setRemarks("");
     }
 
     return (
@@ -337,31 +335,36 @@ const EmergencyInventory = ({ navigation }) => {
 
                         </View>
 
-                        <View style={{ flexDirection: "row", margin: 5 }}>
-
-                            <View>
-                                <TouchableHighlight onPress={() => { handleCameraSelection() }} style={styles.touchableOpacityPhoto}  underlayColor={Colors.primaryLight2}>
-                                    <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                        <Icon name="camera" type="font-awesome" size={12} color={Colors.primary} />
-                                        <Text style={styles.buttonTextPhoto}>Take Photo</Text>
-                                    </View>
-                                </TouchableHighlight>
-                            </View>
-
-                            {cameraPhotoUri ?
-                                <View style={{ borderWidth: 1, borderColor: Colors.primary, borderRadius: 5, padding: 5, margin: 5, flex: 1 }}>
-                                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                        <View>
-                                            <TouchableHighlight onPress={() => { navigation.navigate("View Image File", { file: cameraPhotoUri }) }}>
-                                                <Image style={{ width: 75, height: 75 }} source={{ uri: cameraPhotoUri }} />
-                                            </TouchableHighlight>
-                                        </View>
-                                        <TouchableOpacity onPress={() => { setCameraPhoto(); setCameraPhotoUri(); }}>
-                                            <Icon name="cross" type="entypo" size={25} color="#F87171" />
-                                        </TouchableOpacity>
-                                    </View>
+                        <View>
+                            <TouchableHighlight onPress={() => { handleCameraSelection() }} style={styles.touchableOpacityPhoto}  underlayColor={Colors.primaryLight2}>
+                                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                     <Icon name="camera" type="font-awesome" size={12} color={Colors.primary} />
+                                     <Text style={styles.buttonTextPhoto}>Take Photo</Text>
                                 </View>
-                                : null}
+                            </TouchableHighlight>
+                        </View>
+
+                        {cameraPhotoUri ?
+                            <View style={styles.imageContent}>
+                                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                    <View>
+                                        <TouchableHighlight onPress={() => { navigation.navigate("View Image File", { file: cameraPhotoUri }) }}>
+                                            <Image style={styles.imageStyle} source={{ uri: cameraPhotoUri }} />
+                                        </TouchableHighlight>
+                                    </View>
+                                    <View style={styles.contentViewStyle}>
+                                        <Text style={styles.textHeading}>Remarks</Text>
+                                        <TextInput style={styles.textContent} value={remarks} onChangeText={(remarks) => setRemarks(remarks)} />
+                                        <View style={styles.viewStyle} />
+                                    </View>
+                                    <TouchableOpacity onPress={() => { setCameraPhoto(null); setCameraPhotoUri(""); }}>
+                                        <Icon name="cross" type="entypo" size={25} color="#F87171" />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        : null}
+
+                        <View style={{ flexDirection: "row", margin: 5 }}>
 
                         </View>
 
@@ -511,5 +514,19 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.regular,
         color: Colors.darkGrey,
     },
-
+    imageContent: {
+        borderWidth: 1,
+        borderColor: Colors.primary,
+        borderRadius: 5,
+        padding: 5,
+        marginVertical: 5,
+        flex: 1
+    },
+    imageStyle: {
+        width: 75,
+        height: 75,
+        resizeMode: 'contain',
+        margin: 5,
+        backgroundColor: Colors.white
+    }
 });
