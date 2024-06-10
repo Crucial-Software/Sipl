@@ -10,6 +10,11 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        configurations.all {
+            resolutionStrategy {
+                force "com.facebook.soloader:soloader:0.10.4+"
+            }
+        }
     }
     dependencies {
         classpath("com.android.tools.build:gradle")
@@ -19,6 +24,8 @@ buildscript {
 
         classpath 'com.google.gms:google-services:4.4.0' //For Firebase
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9' //For Firebase Crashlytics
+
+        classpath 'com.facebook.soloader:soloader:0.10.4+'
         
     }
 }

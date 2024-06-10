@@ -20,7 +20,7 @@ const WorkDprListItem = ({ item, index, navigation, staffId, functionGetWork }) 
     const [showDetails, setShowDetails] = useState(false);
 
     const handleShowDetails = () => {
-         setShowDetails(!showDetails);
+        setShowDetails(!showDetails);
     }
 
     const getAttachments = async () => {
@@ -84,7 +84,7 @@ const WorkDprListItem = ({ item, index, navigation, staffId, functionGetWork }) 
             'Save Image', 'Are you sure you want to upload this image?',
             [
                 { text: 'Cancel', onPress: () => Snackbar.show({ text: 'No Image Saved', duration: Snackbar.LENGTH_SHORT }) },
-                { text: 'OK', onPress: () => uploadDocumentsToDatabase(), },
+                { text: 'OK', onPress: () => uploadDocumentsToDatabase() },
             ], {
             cancelable: false,
         },
@@ -94,9 +94,9 @@ const WorkDprListItem = ({ item, index, navigation, staffId, functionGetWork }) 
 
     const uploadDocumentsToDatabase = async () => {
 
-        setLoading(true);
+        console.log("check: " + staffId + " " + item.works_id + " " + remarks);
 
-        const formData = new FormData();
+        let formData = new FormData();
 
         formData.append('image', {
             uri: cameraPhoto.uri,
@@ -104,11 +104,10 @@ const WorkDprListItem = ({ item, index, navigation, staffId, functionGetWork }) 
             name: cameraPhoto.fileName,
             size: cameraPhoto.fileSize,
         });
+        
         formData.append('staffs_id', staffId);
         formData.append('works_id', item.works_id);
         formData.append('remarks', remarks)
-
-        console.log("check: " + staffId + " " + item.works_id + " " + remarks);
 
         const requestOptions = {
             method: 'POST',
@@ -121,7 +120,7 @@ const WorkDprListItem = ({ item, index, navigation, staffId, functionGetWork }) 
 
         fetch(`${API_BASE}/app/work/workphoto`, requestOptions)
             .then(res => {
-                setLoading(false);
+                console.log("resp: " + JSON.stringify(res));
                 if (res.ok) {
                     setCameraPhoto(null);
                     setCameraPhotoUri("");
@@ -132,7 +131,6 @@ const WorkDprListItem = ({ item, index, navigation, staffId, functionGetWork }) 
                 }
             })
             .catch(error => {
-                setLoading(false);
                 Snackbar.show({ text: 'Error occured while uploading. Please try again. ', duration: Snackbar.LENGTH_SHORT })
                 console.log("error : " + error);
                 setCameraPhoto(null);
@@ -211,7 +209,7 @@ const WorkDprListItem = ({ item, index, navigation, staffId, functionGetWork }) 
 
                 <View style={{ flexDirection: "row" }}>
 
-                    <TouchableHighlight onPress={() => {handleShowDetails(); getAttachments();}} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
+                    <TouchableHighlight onPress={() => { handleShowDetails(); getAttachments(); }} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
                         <View style={{ flexDirection: "row", alignItems: "center" }}>
                             <Icon name="image" type="font-awesome" size={12} color={Colors.primary} />
                             <Text style={styles.buttonTextPhoto}>View Images</Text>
@@ -228,27 +226,27 @@ const WorkDprListItem = ({ item, index, navigation, staffId, functionGetWork }) 
                 </View>
 
                 {showDetails ?
-                     <FlatList
-                           data={workImageList}
-                           ListEmptyComponent={<NoDataFound />}
-                           renderItem={({ item, index }) => (
-                                <View style={styles.imageContent}>
-                                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                         <View>
-                                            <TouchableHighlight onPress={() => { navigation.navigate("View Image File", { file: `https://shrikarniinfra.in/uploads/works/${item.image}` }) }}>
-                                                <Image style={styles.imageStyle} source={{ uri: `https://shrikarniinfra.in/uploads/works/${item.image}` }} />
-                                                </TouchableHighlight>
-                                         </View>
+                    <FlatList
+                        data={workImageList}
+                        ListEmptyComponent={<NoDataFound />}
+                        renderItem={({ item, index }) => (
+                            <View style={styles.imageContent}>
+                                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                    <View>
+                                        <TouchableHighlight onPress={() => { navigation.navigate("View Image File", { file: `https://shrikarniinfra.in/uploads/works/${item.image}` }) }}>
+                                            <Image style={styles.imageStyle} source={{ uri: `https://shrikarniinfra.in/uploads/works/${item.image}` }} />
+                                        </TouchableHighlight>
+                                    </View>
 
-                                         <View style={styles.contentViewStyle}>
-                                             <Text style={styles.textHeading}>Remarks</Text>
-                                             <Text style={styles.textContent}>{item.remarks}</Text>
-                                         </View>
+                                    <View style={styles.contentViewStyle}>
+                                        <Text style={styles.textHeading}>Remarks</Text>
+                                        <Text style={styles.textContent}>{item.remarks}</Text>
                                     </View>
                                 </View>
-                           )}
-                     />
-                     : null
+                            </View>
+                        )}
+                    />
+                    : null
                 }
 
                 {cameraPhotoUri ?

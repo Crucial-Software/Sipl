@@ -145,29 +145,29 @@ const EmergencyInventory = ({ navigation }) => {
             includeBase64: true,
         };
 
-            launchCamera(options, (response) => {
-                if (response.didCancel) {
-                    Snackbar.show({ text: 'No Image Captured', duration: Snackbar.LENGTH_SHORT })
-                    return;
-                } else if (response.errorCode == 'camera_unavailable') {
-                    Snackbar.show({ text: 'No Camera Available', duration: Snackbar.LENGTH_SHORT })
-                    return;
-                } else if (response.errorCode == 'permission') {
-                    Snackbar.show({ text: 'Permission Error', duration: Snackbar.LENGTH_SHORT })
-                    return;
-                } else if (response.errorCode == 'others') {
-                    Snackbar.show({ text: 'Error occured. Please try again.', duration: Snackbar.LENGTH_SHORT })
-                    return;
-                }
-                console.log('uri Camera-> ', response.assets[0].uri);
-                console.log('width Camera-> ', response.assets[0].width);
-                console.log('height Camera-> ', response.assets[0].height);
-                console.log('fileSize Camera-> ', response.assets[0].fileSize);
-                console.log('type Camera-> ', response.assets[0].type);
-                console.log('fileName Camera-> ', response.assets[0].fileName);
-                setCameraPhoto(response.assets[0]);
-                setCameraPhotoUri(response.assets[0].uri);
-            });
+        launchCamera(options, (response) => {
+            if (response.didCancel) {
+                Snackbar.show({ text: 'No Image Captured', duration: Snackbar.LENGTH_SHORT })
+                return;
+            } else if (response.errorCode == 'camera_unavailable') {
+                Snackbar.show({ text: 'No Camera Available', duration: Snackbar.LENGTH_SHORT })
+                return;
+            } else if (response.errorCode == 'permission') {
+                Snackbar.show({ text: 'Permission Error', duration: Snackbar.LENGTH_SHORT })
+                return;
+            } else if (response.errorCode == 'others') {
+                Snackbar.show({ text: 'Error occured. Please try again.', duration: Snackbar.LENGTH_SHORT })
+                return;
+            }
+            console.log('uri Camera-> ', response.assets[0].uri);
+            console.log('width Camera-> ', response.assets[0].width);
+            console.log('height Camera-> ', response.assets[0].height);
+            console.log('fileSize Camera-> ', response.assets[0].fileSize);
+            console.log('type Camera-> ', response.assets[0].type);
+            console.log('fileName Camera-> ', response.assets[0].fileName);
+            setCameraPhoto(response.assets[0]);
+            setCameraPhotoUri(response.assets[0].uri);
+        });
 
     };
 
@@ -175,7 +175,13 @@ const EmergencyInventory = ({ navigation }) => {
 
         console.log("FromDate: " + moment(date).format("DD-MMM-YYYY") + " Shift: " + shiftSelected);
 
-        Alert.alert(
+        if (shiftSelected == null || shiftSelected === "" || shiftSelected === "- Select -") {
+            Snackbar.show({ text: 'Please select shift', duration: Snackbar.LENGTH_SHORT })
+        }
+        else if (cameraPhoto === "" || cameraPhotoUri === "") {
+            Snackbar.show({ text: 'Please capture image.', duration: Snackbar.LENGTH_SHORT })
+        } else {
+            Alert.alert(
                 'Save Image', 'Are you sure you want to upload this image?',
                 [
                     { text: 'Cancel', onPress: () => Snackbar.show({ text: 'No Image Saved', duration: Snackbar.LENGTH_SHORT }) },
@@ -183,31 +189,13 @@ const EmergencyInventory = ({ navigation }) => {
                 ], {
                 cancelable: false,
             },
-        );
-
-//        if (shiftSelected == null || shiftSelected === "" || shiftSelected === "- Select -") {
-//            Snackbar.show({ text: 'Please select shift', duration: Snackbar.LENGTH_SHORT })
-//        }
-//        else if (cameraPhoto === "" || cameraPhotoUri === "") {
-//            Snackbar.show({ text: 'Please capture image.', duration: Snackbar.LENGTH_SHORT })
-//        } else {
-//            Alert.alert(
-//                'Save Image', 'Are you sure you want to upload this image?',
-//                [
-//                    { text: 'Cancel', onPress: () => Snackbar.show({ text: 'No Image Saved', duration: Snackbar.LENGTH_SHORT }) },
-//                    { text: 'OK', onPress: () => uploadDocumentsToDatabase(), },
-//                ], {
-//                cancelable: false,
-//            },
-//            );
-//        }
+            );
+        }
     }
 
     const uploadDocumentsToDatabase = async () => {
 
         setLoading(true);
-
-
 
         const formData = new FormData();
 
@@ -217,9 +205,11 @@ const EmergencyInventory = ({ navigation }) => {
             name: cameraPhoto.fileName,
             size: cameraPhoto.fileSize,
         });
-        formData.append('staffs_id', "8");
+        formData.append('staffs_id', staffId);
         formData.append('works_id', "4774");
-        formData.append('remarks', "Emer Inv. Photo at 28-03")
+        formData.append('remarks', remarks);
+        // formData.append('date', moment(date).format("YYYY-MM-DD[T]HH:mm"));
+        // formData.append('shift', shiftSelected);
 
         console.log("form data: " + JSON.stringify(formData));
 
@@ -238,9 +228,11 @@ const EmergencyInventory = ({ navigation }) => {
                 if (res.ok) {
                     setCameraPhoto(null);
                     setCameraPhotoUri("");
+                    Snackbar.show({ text: 'Photo Uploaded', duration: Snackbar.LENGTH_SHORT })
                 } else {
                     setCameraPhoto(null);
                     setCameraPhotoUri("");
+                    Snackbar.show({ text: 'Photo Not Uploaded. Try Again', duration: Snackbar.LENGTH_SHORT })
                 }
             })
             .catch(error => {
@@ -254,18 +246,8 @@ const EmergencyInventory = ({ navigation }) => {
     }
 
 
-//    const uploadDocumentsToDatabase = () => {
-//
-//        const formData = new FormData();
-//
-//        formData.append('staffs_id', staffId);
-//        formData.append('date', moment(date).format("YYYY-MM-DD[T]HH:mm"))
-//        formData.append('shift', shiftSelected)
-//        formData.append("file", cameraPhoto)
-//
-//        //uploadAllDocuments(formData);
-//    }
-//Static Work ID Will be 4774 for Photo of Emergency Stock
+
+    //Static Work ID Will be 4774 for Photo of Emergency Stock
 
     const clearFields = () => {
         setCameraPhoto("");
@@ -336,10 +318,10 @@ const EmergencyInventory = ({ navigation }) => {
                         </View>
 
                         <View>
-                            <TouchableHighlight onPress={() => { handleCameraSelection() }} style={styles.touchableOpacityPhoto}  underlayColor={Colors.primaryLight2}>
+                            <TouchableHighlight onPress={() => { handleCameraSelection() }} style={styles.touchableOpacityPhoto} underlayColor={Colors.primaryLight2}>
                                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                     <Icon name="camera" type="font-awesome" size={12} color={Colors.primary} />
-                                     <Text style={styles.buttonTextPhoto}>Take Photo</Text>
+                                    <Icon name="camera" type="font-awesome" size={12} color={Colors.primary} />
+                                    <Text style={styles.buttonTextPhoto}>Take Photo</Text>
                                 </View>
                             </TouchableHighlight>
                         </View>
@@ -362,7 +344,7 @@ const EmergencyInventory = ({ navigation }) => {
                                     </TouchableOpacity>
                                 </View>
                             </View>
-                        : null}
+                            : null}
 
                         <View style={{ flexDirection: "row", margin: 5 }}>
 

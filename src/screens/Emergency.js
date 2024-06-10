@@ -36,6 +36,12 @@ const Emergency = ({ navigation }) => {
           </View>
         </TouchableOpacity>
 
+        <TouchableOpacity onPress={() => { navigation.navigate("View Emergency Photos") }}>
+          <View style={styles.card}>
+              <Text style={styles.textContent}>View Images</Text>
+          </View>
+        </TouchableOpacity>
+
       </View>
 
 

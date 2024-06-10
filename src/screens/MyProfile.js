@@ -94,7 +94,7 @@ const MyProfile = ({ navigation }) => {
           <View style={styles.viewStyle} />
         </View>
 
-        <TouchableOpacity onPress={() => { navigation.navigate("Change Password", { userid: userId,}) }}>
+        <TouchableOpacity onPress={() => { navigation.navigate("Change Password", { userid: userId, }) }}>
           <View style={styles.card}>
             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
               <Text style={styles.textContent1}>Change Password</Text>

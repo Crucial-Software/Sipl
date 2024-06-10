@@ -45,8 +45,6 @@ const AllDpr = ({ navigation }) => {
 
         setLoading(true);
 
-        console.log("fdate: " + moment(fromDate).format("YYYY-MM-DD") + " todate: " + moment(toDate).format("YYYY-MM-DD"));
-
         let toInput = {
             fromdate: moment(fromDate).format("YYYY-MM-DD"),
             todate: moment(toDate).format("YYYY-MM-DD"),
@@ -310,7 +308,7 @@ const AllDpr = ({ navigation }) => {
 
     const searchByDate = () => {
 
-        console.log("FromDate: " + moment(fromDate).format("DD-MMM-YYYY") + " ToDate: " + moment(toDate).format("DD-MMM-YYYY"));
+        console.log("AllDpr FromDate: " + moment(fromDate).format("DD-MMM-YYYY") + " ToDate: " + moment(toDate).format("DD-MMM-YYYY"));
 
         getWork(locationId);
 
@@ -355,7 +353,6 @@ const AllDpr = ({ navigation }) => {
                             </View>
                             <View style={styles.viewStyle} />
                         </View>
-
 
                         <TouchableOpacity onPress={() => { searchByDate(); }} style={{ marginTop: 10, marginStart: 5, alignSelf: "center", }}>
                             <View style={{ backgroundColor: Colors.primary, padding: 10, borderWidth: 1, borderRadius: 5, borderColor: Colors.primary }}>

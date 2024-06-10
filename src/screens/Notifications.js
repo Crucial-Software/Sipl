@@ -17,20 +17,20 @@ const Notifications = ({ navigation }) => {
         getData();
     }, []);
 
-     const getData = async () => {
+    const getData = async () => {
 
-            await AsyncStorage.getItem('userEmpDetails')
-                .then(stringifiedEmpDetails => {
-                    const parsedEmpDetails = JSON.parse(stringifiedEmpDetails);
-                    if (!parsedEmpDetails || typeof parsedEmpDetails !== 'object') return;
-                    getNotifications(parsedEmpDetails[0].locations_id, parsedEmpDetails[0].id);
-                })
-                .catch(err => {
-                    console.warn('Error restoring Emp Details from async');
-                    console.warn(err);
-                });
+        await AsyncStorage.getItem('userEmpDetails')
+            .then(stringifiedEmpDetails => {
+                const parsedEmpDetails = JSON.parse(stringifiedEmpDetails);
+                if (!parsedEmpDetails || typeof parsedEmpDetails !== 'object') return;
+                getNotifications(parsedEmpDetails[0].locations_id, parsedEmpDetails[0].id);
+            })
+            .catch(err => {
+                console.warn('Error restoring Emp Details from async');
+                console.warn(err);
+            });
 
-        };
+    };
 
     const getNotifications = async (locid, staffid) => {
 
@@ -42,24 +42,24 @@ const Notifications = ({ navigation }) => {
         };
 
         await fetch(`${API_BASE}/app/notification/notificationlist`, {
-              method: "POST",
-              headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-              body: JSON.stringify(toInput)
+            method: "POST",
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify(toInput)
         })
-              .then((response) => response.json())
-              .then((response) => {
-                   setLoading(false);
-                   if (response.list) {
-                        setNotificationsList(response.list);
-                   } else {
-                        Snackbar.show({ text: '' + response.message, duration: Snackbar.LENGTH_SHORT })
-                   }
-              })
-              .catch((error) => {
-                    setLoading(false);
-                    console.error('Notifications There was an error!', error);
-                    Snackbar.show({ text: 'Error Occured. Please Try again.' + error, duration: Snackbar.LENGTH_SHORT })
-              })
+            .then((response) => response.json())
+            .then((response) => {
+                setLoading(false);
+                if (response.list) {
+                    setNotificationsList(response.list);
+                } else {
+                    Snackbar.show({ text: '' + response.message, duration: Snackbar.LENGTH_SHORT })
+                }
+            })
+            .catch((error) => {
+                setLoading(false);
+                console.error('Notifications There was an error!', error);
+                Snackbar.show({ text: 'Error Occured. Please Try again.' + error, duration: Snackbar.LENGTH_SHORT })
+            })
 
     }
 

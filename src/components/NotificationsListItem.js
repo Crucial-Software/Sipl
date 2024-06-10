@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Icon } from 'react-native-elements';
@@ -8,19 +8,17 @@ import { Colors, FontSize, Fonts } from '../common/ConstantStyles';
 const NotificationsListItem = ({ item, index, navigation }) => {
 
     return (
-        <View>
 
-            <TouchableOpacity onPress={() => { }} style={styles.itemContainer}>
+        <View style={styles.itemContainer}>
 
-                <Icon name='circle-notifications' type='material-icon' size={50} iconStyle={{ marginEnd: 5 }} color={Colors.primaryLight2} />
+            <Icon name='circle-notifications' type='material-icon' size={50} iconStyle={{ marginEnd: 5 }} color={Colors.primaryLight2} />
 
-                <View style={styles.outerView}>
-                    <Text style={styles.itemTextHeading}>{item.title}</Text>
-                    <Text style={styles.itemTextContent}>{item.details}</Text>
-                    <Text style={styles.itemTextContentSmall}>{moment(item.created_at).format("DD-MMM-YYYY")}</Text>
-                </View>
+            <View style={styles.outerView}>
+                <Text style={styles.itemTextHeading}>{item.title}</Text>
+                <Text style={styles.itemTextContent}>{item.details}</Text>
+                <Text style={styles.itemTextContentSmall}>{moment(item.created_at).format("DD-MMM-YYYY")}</Text>
+            </View>
 
-            </TouchableOpacity>
         </View>
 
     );

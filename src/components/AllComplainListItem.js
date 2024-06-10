@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, TouchableHighlight } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
 import { Colors, Fonts, FontSize } from '../common/ConstantStyles'
 import moment from 'moment';
 import CheckBox from '@react-native-community/checkbox';
 import WorkAssignListItem from './WorkAssignListItem';
-import { Icon } from 'react-native-elements';
 import NoDataFound from '../common/NoDataFound';
 
 type ItemTypes = {
@@ -14,7 +13,7 @@ type ItemTypes = {
     functionGetWork: any;
 }
 
-const AllEmergencyListItem = ({ item, onSelect, isCheckbox, functionGetWork }: ItemTypes) => {
+const AllComplainListItem = ({ item, onSelect, isCheckbox, functionGetWork }: ItemTypes) => {
 
     const [showDetails, setShowDetails] = useState(false);
 
@@ -25,14 +24,14 @@ const AllEmergencyListItem = ({ item, onSelect, isCheckbox, functionGetWork }: I
     return (
         <View>
 
-            <TouchableOpacity style={item.works.length == 0 ? styles.itemContainer : item.status == 'Completed' ? styles.itemContainer2 : styles.itemContainer1} >
+            <TouchableOpacity style={item.works.length == 0 ? styles.itemContainer : item.status == 'Completed'? styles.itemContainer2 : styles.itemContainer1} >
 
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Date Time:</Text>
+                        <Text style={styles.itemTextHeading}>Date:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.calltime ? moment(item.calltime).format("DD-MMM-YYYY HH:mm:ss") : ""}</Text>
+                        <Text style={styles.itemTextContent}>{item.date ? moment(item.date).format("DD-MMM-YYYY") : ""}</Text>
                     </View>
                     <View style={{ justifyContent: "center", }}>
                         {isCheckbox && <CheckBox
@@ -45,30 +44,10 @@ const AllEmergencyListItem = ({ item, onSelect, isCheckbox, functionGetWork }: I
 
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Cust. No.:</Text>
+                        <Text style={styles.itemTextHeading}>Customer Name:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.customerno ? item.customerno : ""}</Text>
-                    </View>
-                    <View style={{ justifyContent: "center" }} />
-                </View>
-
-                <View style={styles.outerView}>
-                    <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Cust. Name:</Text>
-                    </View>
-                    <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.customername ? item.customername : ""}</Text>
-                    </View>
-                    <View style={{ justifyContent: "center" }} />
-                </View>
-
-                <View style={styles.outerView}>
-                    <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Cust. Phone:</Text>
-                    </View>
-                    <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.customerphone ? item.customerphone : ""}</Text>
+                        <Text style={styles.itemTextContent}>{item.name ? item.name : ""}</Text>
                     </View>
                     <View style={{ justifyContent: "center" }} />
                 </View>
@@ -78,25 +57,16 @@ const AllEmergencyListItem = ({ item, onSelect, isCheckbox, functionGetWork }: I
                         <Text style={styles.itemTextHeading}>Address:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.address ? item.address : ""}</Text>
+                        <Text style={styles.itemTextContent}>{item.houseno ? item.houseno : null}, {item.city ? item.city : ""}</Text>
                     </View>
                 </View>
 
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Location:</Text>
+                        <Text style={styles.itemTextHeading}>Description:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.location[0].locationname ? item.location[0].locationname : ""}</Text>
-                    </View>
-                </View>
-
-                <View style={styles.outerView}>
-                    <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Remarks:</Text>
-                    </View>
-                    <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.remarks ? item.remarks : ""}</Text>
+                        <Text style={styles.itemTextContent}>{item.description ? item.description : ""}</Text>
                     </View>
                 </View>
 
@@ -117,24 +87,6 @@ const AllEmergencyListItem = ({ item, onSelect, isCheckbox, functionGetWork }: I
                         <Text style={styles.itemTextContent}>{item.created_at ? moment(item.created_at).format("DD-MMM-YYYY HH:mm:ss") : ""}</Text>
                     </View>
                 </View>
-
-                {/* <View style={{ flexDirection: "row" }}>
-
-                    <TouchableHighlight onPress={() => {handleShowDetails(); getAttachments();}} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
-                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <Icon name="image" type="font-awesome" size={12} color={Colors.primary} />
-                            <Text style={styles.buttonTextPhoto}>View Images</Text>
-                        </View>
-                    </TouchableHighlight>
-
-                    <TouchableHighlight onPress={() => { handleCameraSelection() }} style={styles.touchableOpacityPhoto} underlayColor={Colors.primaryLight2}>
-                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <Icon name="camera" type="font-awesome" size={12} color={Colors.primary} />
-                            <Text style={styles.buttonTextPhoto}>Take Photo</Text>
-                        </View>
-                    </TouchableHighlight>
-
-                </View> */}
 
                 {item.works.length != 0 ?
                     <View>
@@ -161,6 +113,7 @@ const AllEmergencyListItem = ({ item, onSelect, isCheckbox, functionGetWork }: I
 
                             </View>
                             : null
+
                         }
                     </View>
                     : null
@@ -173,7 +126,7 @@ const AllEmergencyListItem = ({ item, onSelect, isCheckbox, functionGetWork }: I
     );
 }
 
-export default AllEmergencyListItem
+export default AllComplainListItem
 
 const styles = StyleSheet.create({
     itemContainer: {
@@ -251,29 +204,5 @@ const styles = StyleSheet.create({
         flex: 1,
         color: Colors.black,
         fontSize: FontSize.smallMedium,
-    },
-    touchableOpacityPhoto: {
-        width: 100,
-        marginVertical: 2,
-        marginHorizontal: 5,
-        borderRadius: 50,
-        borderWidth: 1,
-        borderColor: Colors.primary,
-        padding: 5,
-    },
-    touchableOpacityImages: {
-        width: 110,
-        marginVertical: 2,
-        marginHorizontal: 5,
-        borderRadius: 50,
-        borderWidth: 1,
-        borderColor: Colors.primary,
-        padding: 5,
-    },
-    buttonTextPhoto: {
-        color: Colors.primary,
-        textAlign: "center",
-        fontFamily: Fonts.semiBold,
-        marginStart: 5
     },
 });

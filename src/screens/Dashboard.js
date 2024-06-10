@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState } from 'react'
-import { Text, View, PermissionsAndroid, StyleSheet, Dimensions, Alert, BackHandler, TouchableOpacity, SafeAreaView, TouchableHighlight, Platform, ActivityIndicator } from 'react-native'
+import { Text, View, PermissionsAndroid, StyleSheet, Dimensions, Alert, BackHandler, TouchableOpacity, SafeAreaView, TouchableHighlight, Platform, ActivityIndicator, Button } from 'react-native'
 import Snackbar from 'react-native-snackbar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CameraScreen } from 'react-native-camera-kit';
@@ -10,7 +10,6 @@ import { API_BASE } from '../setupProxy';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { ScrollView } from 'react-native-gesture-handler';
-
 
 const Dashboard = ({ navigation }) => {
 

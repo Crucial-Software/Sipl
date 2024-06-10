@@ -13,7 +13,7 @@ const SelectWork = ({ navigation }) => {
 
         <TouchableOpacity onPress={() => { navigation.navigate("Tracker") }}>
           <View style={styles.card}>
-            <Text style={styles.textContent1}>My Tracker</Text>
+            <Text style={styles.textContent1}>My Connection</Text>
           </View>
         </TouchableOpacity>
 
@@ -23,15 +23,39 @@ const SelectWork = ({ navigation }) => {
           </View>
         </TouchableOpacity>
 
+        <TouchableOpacity onPress={() => { navigation.navigate("My Complain") }}>
+          <View style={styles.card}>
+            <Text style={styles.textContent1}>My Complain</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => { navigation.navigate("My AMC") }}>
+          <View style={styles.card}>
+            <Text style={styles.textContent1}>My AMC</Text>
+          </View>
+        </TouchableOpacity>
+
         <TouchableOpacity onPress={() => { navigation.navigate("All Tracker") }}>
           <View style={styles.card1}>
-            <Text style={styles.textContent1}>All Tracker</Text>
+            <Text style={styles.textContent1}>All Connection</Text>
           </View>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => { navigation.navigate("All DPR") }}>
           <View style={styles.card1}>
             <Text style={styles.textContent1}>All DPR</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => { navigation.navigate("All Complain") }}>
+          <View style={styles.card1}>
+            <Text style={styles.textContent1}>All Complain</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => { navigation.navigate("All AMC") }}>
+          <View style={styles.card1}>
+            <Text style={styles.textContent1}>All AMC</Text>
           </View>
         </TouchableOpacity>
 

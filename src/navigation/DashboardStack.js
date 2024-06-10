@@ -28,6 +28,13 @@ import AllTracker from '../screens/AllTracker';
 import AllDpr from '../screens/AllDpr';
 import AllEmergency from '../screens/AllEmergency';
 import AddEmergency from '../screens/AddEmergency';
+import ViewEmergencyPhotos from '../screens/ViewEmergencyPhotos';
+import MyComplain from '../screens/MyComplain';
+import AllComplain from '../screens/AllComplain';
+import MyAmc from '../screens/MyAmc';
+import AllAmc from '../screens/AllAmc';
+import AmcDetails from '../screens/AmcDetails';
+import ComplainDetails from '../screens/ComplainDetails';
 
 const Stack = createStackNavigator();
 
@@ -120,7 +127,7 @@ const DashboardStack = ({ navigation }) => {
                 name="Tracker"
                 component={Work}
                 options={{
-                    title: "Tracker",
+                    title: "Connection",
                     headerShown: true,
                     headerStyle: { backgroundColor: Colors.primary },
                     headerTintColor: Colors.white,
@@ -204,7 +211,7 @@ const DashboardStack = ({ navigation }) => {
                 name="All Tracker"
                 component={AllTracker}
                 options={{
-                    title: "All Tracker",
+                    title: "All Connection",
                     headerShown: true,
                     headerStyle: { backgroundColor: Colors.primary },
                     headerTintColor: Colors.white,
@@ -299,6 +306,20 @@ const DashboardStack = ({ navigation }) => {
             />
 
             <Stack.Screen
+                name="View Emergency Photos"
+                component={ViewEmergencyPhotos}
+                options={{
+                    title: "Emergency Photos",
+                    headerShown: true,
+                    headerStyle: { backgroundColor: Colors.primary },
+                    headerTintColor: Colors.white,
+                    headerTitleAlign: "center",
+                    headerTitleStyle: { fontFamily: Fonts.semiBold, fontSize: FontSize.medium },
+
+                }}
+            />
+
+            <Stack.Screen
                 name="Issue Material"
                 component={IssueMaterial}
                 options={{
@@ -347,7 +368,6 @@ const DashboardStack = ({ navigation }) => {
                     headerTintColor: Colors.white,
                     headerTitleAlign: "center",
                     headerTitleStyle: { fontFamily: Fonts.semiBold, fontSize: FontSize.medium },
-
                 }}
             />
 
@@ -361,7 +381,6 @@ const DashboardStack = ({ navigation }) => {
                     headerTintColor: Colors.white,
                     headerTitleAlign: "center",
                     headerTitleStyle: { fontFamily: Fonts.semiBold, fontSize: FontSize.medium },
-
                 }}
             />
 
@@ -375,7 +394,6 @@ const DashboardStack = ({ navigation }) => {
                     headerTintColor: Colors.white,
                     headerTitleAlign: "center",
                     headerTitleStyle: { fontFamily: Fonts.semiBold, fontSize: FontSize.medium },
-
                 }}
             />
 
@@ -384,6 +402,85 @@ const DashboardStack = ({ navigation }) => {
                 component={ReturnFromStaff}
                 options={{
                     title: "Return From Staff",
+                    headerShown: true,
+                    headerStyle: { backgroundColor: Colors.primary },
+                    headerTintColor: Colors.white,
+                    headerTitleAlign: "center",
+                    headerTitleStyle: { fontFamily: Fonts.semiBold, fontSize: FontSize.medium },
+                }}
+            />
+
+            <Stack.Screen
+                name="My Complain"
+                component={MyComplain}
+                options={{
+                    title: "My Complain",
+                    headerShown: true,
+                    headerStyle: { backgroundColor: Colors.primary },
+                    headerTintColor: Colors.white,
+                    headerTitleAlign: "center",
+                    headerTitleStyle: { fontFamily: Fonts.semiBold, fontSize: FontSize.medium },
+                }}
+            />
+
+            <Stack.Screen
+                name="Complain Details"
+                component={ComplainDetails}
+                options={{
+                    title: "Complain Details",
+                    headerShown: true,
+                    headerStyle: { backgroundColor: Colors.primary },
+                    headerTintColor: Colors.white,
+                    headerTitleAlign: "center",
+                    headerTitleStyle: { fontFamily: Fonts.semiBold, fontSize: FontSize.medium },
+
+                }}
+            />
+
+            <Stack.Screen
+                name="All Complain"
+                component={AllComplain}
+                options={{
+                    title: "All Complain",
+                    headerShown: true,
+                    headerStyle: { backgroundColor: Colors.primary },
+                    headerTintColor: Colors.white,
+                    headerTitleAlign: "center",
+                    headerTitleStyle: { fontFamily: Fonts.semiBold, fontSize: FontSize.medium },
+                }}
+            />
+
+            <Stack.Screen
+                name="My AMC"
+                component={MyAmc}
+                options={{
+                    title: "My AMC",
+                    headerShown: true,
+                    headerStyle: { backgroundColor: Colors.primary },
+                    headerTintColor: Colors.white,
+                    headerTitleAlign: "center",
+                    headerTitleStyle: { fontFamily: Fonts.semiBold, fontSize: FontSize.medium },
+                }}
+            />
+
+            <Stack.Screen
+                name="All AMC"
+                component={AllAmc}
+                options={{
+                    title: "All AMC",
+                    headerShown: true,
+                    headerStyle: { backgroundColor: Colors.primary },
+                    headerTintColor: Colors.white,
+                    headerTitleAlign: "center",
+                    headerTitleStyle: { fontFamily: Fonts.semiBold, fontSize: FontSize.medium },
+                }}
+            />
+
+            <Stack.Screen
+                name="AMC Details"
+                component={AmcDetails}
+                options={{
+                    title: "AMC Details",
                     headerShown: true,
                     headerStyle: { backgroundColor: Colors.primary },
                     headerTintColor: Colors.white,

@@ -26,27 +26,27 @@ const WorkDetails = ({ navigation, route }) => {
     const [extraKitchenPoint, setExtraKitchenPoint] = useState("");
     const [extraGeyserPoint, setExtraGeyserPoint] = useState("");
 
-    const [plbDate, setPlbDate] = useState(new Date());
+    const [plbDate, setPlbDate] = useState();
     const [plbRemarks, setPlbRemarks] = useState("");
     const [plbRemarksList, setPlbRemarksList] = useState([]);
     const [showPlbRemarkList, setShowPlbRemarkList] = useState(false);
 
-    const [pptDate, setPptDate] = useState(new Date());
+    const [pptDate, setPptDate] = useState();
     const [pptRemarks, setPptRemarks] = useState("");
     const [pptRemarksList, setPptRemarksList] = useState([]);
     const [showPptRemarkList, setShowPptRemarkList] = useState(false);
 
-    const [gcDate, setGcDate] = useState(new Date());
+    const [gcDate, setGcDate] = useState();
     const [gcRemarks, setGcRemarks] = useState("");
     const [gcRemarksList, setGcRemarksList] = useState([]);
     const [showGcRemarkList, setShowGcRemarkList] = useState(false);
 
-    const [mmtDate, setMmtDate] = useState(new Date());
+    const [mmtDate, setMmtDate] = useState();
     const [mmtRemarks, setMmtRemarks] = useState("");
     const [mmtRemarksList, setMmtRemarksList] = useState([]);
     const [showMmtRemarkList, setShowMmtRemarkList] = useState(false);
 
-    const [conversionDate, setConversionDate] = useState(new Date());
+    const [conversionDate, setConversionDate] = useState();
     const [conversionRemarks, setConversionRemarks] = useState("");
     const [conversionRemarksList, setConversionRemarksList] = useState([]);
     const [showConversionRemarkList, setShowConversionRemarkList] = useState(false);
@@ -78,44 +78,40 @@ const WorkDetails = ({ navigation, route }) => {
 
             setWorkDetails(workDetailsItem);
 
-            if (workDetailsItem.plbdate !== '0000-00-00') {
+            console.log("workDetailsItem.plbdate : " + workDetailsItem.plbdate);
+            console.log("workDetailsItem.pptdate : " + workDetailsItem.pptdate);
+            console.log("workDetailsItem.gcdate : " + workDetailsItem.gcdate);
+            console.log("workDetailsItem.mmtdate : " + workDetailsItem.mmtdate);
+            console.log("workDetailsItem.conversiondate : " + workDetailsItem.conversiondate);
+
+            if (workDetailsItem.plbdate) {
                 let plbdate = moment(workDetailsItem.plbdate).format('YYYY-MM-DD')
                 let parsedPlbDate = new Date(plbdate);
                 setPlbDate(parsedPlbDate);
-            } else {
-                setPlbDate(new Date());
             }
 
-            if (workDetailsItem.pptdate !== '0000-00-00') {
+            if (workDetailsItem.pptdate) {
                 let pptdate = moment(workDetailsItem.pptdate).format('YYYY-MM-DD')
                 let parsedPptDate = new Date(pptdate);
                 setPptDate(parsedPptDate);
-            } else {
-                setPptDate(new Date());
             }
 
-            if (workDetailsItem.gcdate !== '0000-00-00') {
+            if (workDetailsItem.gcdate) {
                 let gcdate = moment(workDetailsItem.gcdate).format('YYYY-MM-DD')
                 let parsedGcDate = new Date(gcdate);
                 setGcDate(parsedGcDate);
-            } else {
-                setGcDate(new Date());
             }
 
-            if (workDetailsItem.mmtdate !== '0000-00-00') {
+            if (workDetailsItem.mmtdate) {
                 let mmtdate = moment(workDetailsItem.mmtdate).format('YYYY-MM-DD')
                 let parsedMmtDate = new Date(mmtdate);
                 setMmtDate(parsedMmtDate);
-            } else {
-                setMmtDate(new Date());
             }
 
-            if (workDetailsItem.conversiondate !== '0000-00-00') {
+            if (workDetailsItem.conversiondate) {
                 let conversiondate = moment(workDetailsItem.conversiondate).format('YYYY-MM-DD')
                 let parsedConversionDate = new Date(conversiondate);
                 setConversionDate(parsedConversionDate);
-            } else {
-                setConversionDate(new Date());
             }
 
             if (workDetailsItem.extrakitchenpoint !== '') {
@@ -192,7 +188,7 @@ const WorkDetails = ({ navigation, route }) => {
     const showPlbDatepicker = () => {
 
         DateTimePickerAndroid.open({
-            value: plbDate,
+            value: plbDate ? plbDate : new Date(),
             onChange: onPlbDateChange,
             mode: 'date',
             is24Hour: true,
@@ -208,7 +204,7 @@ const WorkDetails = ({ navigation, route }) => {
     const showPptDatepicker = () => {
 
         DateTimePickerAndroid.open({
-            value: pptDate,
+            value: pptDate ? pptDate : new Date(),
             onChange: onPptDateChange,
             mode: 'date',
             is24Hour: true,
@@ -224,7 +220,7 @@ const WorkDetails = ({ navigation, route }) => {
     const showGcDatepicker = () => {
 
         DateTimePickerAndroid.open({
-            value: gcDate,
+            value: gcDate ? gcDate : new Date(),
             onChange: onGcDateChange,
             mode: 'date',
             is24Hour: true,
@@ -240,7 +236,7 @@ const WorkDetails = ({ navigation, route }) => {
     const showMmtDatepicker = () => {
 
         DateTimePickerAndroid.open({
-            value: mmtDate,
+            value: mmtDate ? mmtDate : new Date(),
             onChange: onMmtDateChange,
             mode: 'date',
             is24Hour: true,
@@ -255,7 +251,7 @@ const WorkDetails = ({ navigation, route }) => {
     const showConversionDatepicker = () => {
 
         DateTimePickerAndroid.open({
-            value: mmtDate,
+            value: conversionDate ? conversionDate : new Date(),
             onChange: onConversionDateChange,
             mode: 'date',
             is24Hour: true,
@@ -263,30 +259,63 @@ const WorkDetails = ({ navigation, route }) => {
     };
 
     const updateWorkDetails = async () => {
-        console.log("staffId: " + staffId);
-        console.log("workId: " + workDetailsItem.id);
-        console.log("extraKitchenPoint: " + extraKitchenPoint);
-        console.log("extraGeyserPoint: " + extraGeyserPoint);
-        console.log("PlbDate: " + moment(plbDate).format("YYYY-MM-DD"));
-        console.log("PlbRemarks: " + plbRemarks);
-        console.log("PptDate: " + moment(pptDate).format("YYYY-MM-DD"));
-        console.log("PptRemarks: " + pptRemarks);
-        console.log("GcDate: " + moment(gcDate).format("YYYY-MM-DD"));
-        console.log("GcRemarks: " + gcRemarks);
-        console.log("MmtDate: " + moment(mmtDate).format("YYYY-MM-DD"));
-        console.log("MmtRemarks: " + mmtRemarks);
-        console.log("ConversionDate: " + moment(conversionDate).format("YYYY-MM-DD"));
-        console.log("ConversionRemarks: " + conversionRemarks);
-        console.log("remarks: " + remarks);
-        console.log("remarks2: " + remarks2);
-        console.log("status: " + selectedStatus);
 
-        if (remarks === "") {
+        if (remarks === "" || remarks == null) {
             Snackbar.show({ text: 'Please Enter Remarks', duration: Snackbar.LENGTH_SHORT });
         }
         else {
 
-            setLoading(true);
+            let plbdatePassed, pptdatePassed, gcdatePassed, mmtdatePassed, conversiondatePassed;
+
+            // console.log("staffId: " + staffId);
+            // console.log("workId: " + workDetailsItem.id);
+            // console.log("extraKitchenPoint: " + extraKitchenPoint);
+            // console.log("extraGeyserPoint: " + extraGeyserPoint);
+            if (workDetailsItem.plbdate === null && !plbDate) {
+                plbdatePassed = null;
+                console.log("PlbDate: " + "null");
+            } else {
+                plbdatePassed = moment(plbDate).format("YYYY-MM-DD");
+                console.log("PlbDate: " + moment(plbDate).format("YYYY-MM-DD"));
+            }
+            // console.log("PlbRemarks: " + plbRemarks);
+            if (workDetailsItem.pptdate === null && !pptDate) {
+                pptdatePassed = null;
+                console.log("PptDate: " + "null");
+            } else {
+                pptdatePassed = moment(pptDate).format("YYYY-MM-DD");
+                console.log("PptDate: " + moment(pptDate).format("YYYY-MM-DD"));
+            }
+            // console.log("PptRemarks: " + pptRemarks);
+            if (workDetailsItem.gcdate === null && !gcDate) {
+                gcdatePassed = null;
+                console.log("GcDate: " + "null");
+            } else {
+                gcdatePassed = moment(gcDate).format("YYYY-MM-DD");
+                console.log("GcDate: " + moment(gcDate).format("YYYY-MM-DD"));
+            }
+            // console.log("GcRemarks: " + gcRemarks);
+            if (workDetailsItem.mmtdate === null && !mmtDate) {
+                mmtdatePassed = null;
+                console.log("MmtDate: " + "null");
+            } else {
+                mmtdatePassed = moment(mmtDate).format("YYYY-MM-DD");
+                console.log("MmtDate: " + moment(mmtDate).format("YYYY-MM-DD"));
+            }
+            // console.log("MmtRemarks: " + mmtRemarks);
+            if (workDetailsItem.conversiondate === null && !conversionDate) {
+                conversiondatePassed = null;
+                console.log("ConversionDate: " + "null");
+            } else {
+                conversiondatePassed = moment(conversionDate).format("YYYY-MM-DD");
+                console.log("ConversionDate: " + moment(conversionDate).format("YYYY-MM-DD"));
+            }
+            // console.log("ConversionRemarks: " + conversionRemarks);
+            // console.log("remarks: " + remarks);
+            // console.log("remarks2: " + remarks2);
+            // console.log("status: " + selectedStatus);
+
+            // setLoading(true);
 
             let toInput = {
                 worksid: workDetailsItem.id,
@@ -296,17 +325,19 @@ const WorkDetails = ({ navigation, route }) => {
                 status: selectedStatus,
                 extrakitchenpoint: extraKitchenPoint,
                 extrageyserpoint: extraGeyserPoint,
-                plbdate: moment(plbDate).format("YYYY-MM-DD"),
+                plbdate: plbdatePassed,
                 plbremarks: plbRemarks,
-                pptdate: moment(pptDate).format("YYYY-MM-DD"),
+                pptdate: pptdatePassed,
                 pptremarks: pptRemarks,
-                gcdate: moment(gcDate).format("YYYY-MM-DD"),
+                gcdate: gcdatePassed,
                 gcremarks: gcRemarks,
-                mmtdate: moment(mmtDate).format("YYYY-MM-DD"),
+                mmtdate: mmtdatePassed,
                 mmtremarks: mmtRemarks,
-                conversiondate: moment(conversionDate).format("YYYY-MM-DD"),
+                conversiondate: conversiondatePassed,
                 conversionremarks: conversionRemarks
             };
+
+            console.log("toInput: " + JSON.stringify(toInput));
 
             await fetch(`${API_BASE}/app/work/updatetracker`, {
                 method: "POST",
@@ -526,7 +557,15 @@ const WorkDetails = ({ navigation, route }) => {
                                 <Text style={styles.textHeading}>PLB Date</Text>
                                 <View style={styles.contentSubViewStyleRow}>
                                     <View style={{ marginEnd: 5 }}><Icon name="calendar" type="font-awesome" size={20} color="#044F87" onPress={showPlbDatepicker} /></View>
-                                    {plbDate != '0000-00-00' ? <Text style={styles.textContent}>{moment(plbDate).format("DD-MMM-YYYY")}</Text> : <Text style={styles.textContent}></Text>}
+                                    <Text style={styles.textContent}>
+                                        {workDetailsItem.plbdate == null ?
+                                            <>
+                                                {plbDate ? moment(plbDate).format("DD-MMM-YYYY") : "N/A"}
+                                            </>
+                                            :
+                                            moment(plbDate).format("DD-MMM-YYYY")
+                                        }
+                                    </Text>
                                 </View>
                                 <View style={styles.viewStyle} />
                             </View>
@@ -562,7 +601,15 @@ const WorkDetails = ({ navigation, route }) => {
                                 <Text style={styles.textHeading}>PPT Date</Text>
                                 <View style={styles.contentSubViewStyleRow}>
                                     <View style={{ marginEnd: 5 }}><Icon name="calendar" type="font-awesome" size={20} color="#044F87" onPress={showPptDatepicker} /></View>
-                                    {pptDate != '0000-00-00' ? <Text style={styles.textContent}>{moment(pptDate).format("DD-MMM-YYYY")}</Text> : <Text style={styles.textContent}></Text>}
+                                    <Text style={styles.textContent}>
+                                        {workDetailsItem.pptdate == null ?
+                                            <>
+                                                {pptDate ? moment(pptDate).format("DD-MMM-YYYY") : "N/A"}
+                                            </>
+                                            :
+                                            moment(pptDate).format("DD-MMM-YYYY")
+                                        }
+                                    </Text>
                                 </View>
                                 <View style={styles.viewStyle} />
                             </View>
@@ -597,7 +644,15 @@ const WorkDetails = ({ navigation, route }) => {
                                 <Text style={styles.textHeading}>GC Date</Text>
                                 <View style={styles.contentSubViewStyleRow}>
                                     <View style={{ marginEnd: 5 }}><Icon name="calendar" type="font-awesome" size={20} color="#044F87" onPress={showGcDatepicker} /></View>
-                                    {gcDate != '0000-00-00' ? <Text style={styles.textContent}>{moment(gcDate).format("DD-MMM-YYYY")}</Text> : <Text style={styles.textContent}></Text>}
+                                    <Text style={styles.textContent}>
+                                        {workDetailsItem.gcdate == null ?
+                                            <>
+                                                {gcDate ? moment(gcDate).format("DD-MMM-YYYY") : "N/A"}
+                                            </>
+                                            :
+                                            moment(gcDate).format("DD-MMM-YYYY")
+                                        }
+                                    </Text>
                                 </View>
                                 <View style={styles.viewStyle} />
                             </View>
@@ -631,7 +686,15 @@ const WorkDetails = ({ navigation, route }) => {
                                 <Text style={styles.textHeading}>MMT Date</Text>
                                 <View style={styles.contentSubViewStyleRow}>
                                     <View style={{ marginEnd: 5 }}><Icon name="calendar" type="font-awesome" size={20} color="#044F87" onPress={showMmtDatepicker} /></View>
-                                    {mmtDate != '0000-00-00' ? <Text style={styles.textContent}>{moment(mmtDate).format("DD-MMM-YYYY")}</Text> : <Text style={styles.textContent}></Text>}
+                                    <Text style={styles.textContent}>
+                                        {workDetailsItem.mmtdate == null ?
+                                            <>
+                                                {mmtDate ? moment(mmtDate).format("DD-MMM-YYYY") : "N/A"}
+                                            </>
+                                            :
+                                            moment(mmtDate).format("DD-MMM-YYYY")
+                                        }
+                                    </Text>
                                 </View>
                                 <View style={styles.viewStyle} />
                             </View>
@@ -665,7 +728,15 @@ const WorkDetails = ({ navigation, route }) => {
                                 <Text style={styles.textHeading}>Conversion Date</Text>
                                 <View style={styles.contentSubViewStyleRow}>
                                     <View style={{ marginEnd: 5 }}><Icon name="calendar" type="font-awesome" size={20} color="#044F87" onPress={showConversionDatepicker} /></View>
-                                    {conversionDate != '0000-00-00' ? <Text style={styles.textContent}>{moment(conversionDate).format("DD-MMM-YYYY")}</Text> : <Text style={styles.textContent}></Text>}
+                                    <Text style={styles.textContent}>
+                                        {workDetailsItem.conversiondate == null ?
+                                            <>
+                                                {conversionDate ? moment(conversionDate).format("DD-MMM-YYYY") : "N/A"}
+                                            </>
+                                            :
+                                            moment(conversionDate).format("DD-MMM-YYYY")
+                                        }
+                                    </Text>
                                 </View>
                                 <View style={styles.viewStyle} />
                             </View>
@@ -695,7 +766,9 @@ const WorkDetails = ({ navigation, route }) => {
                         </View>
                         <View style={styles.itemContainer1}>
 
-                            <Text style={styles.textHeading}>Remarks</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={styles.textHeading}>Remarks</Text><Text style={{ color: Colors.red, marginHorizontal: 10 }}>*</Text>
+                            </View>
 
                             <View style={styles.contentViewStyle}>
                                 <Autocomplete

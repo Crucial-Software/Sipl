@@ -18,7 +18,6 @@ const Work = ({ navigation }) => {
     const [workList, setWorkList] = useState([]);
     const [filterWorkList, setFilterWorkList] = useState([]);
     const [staffsId, setStaffsId] = useState(null);
-    const [userToken, setUserToken] = useState("");
 
     const [fromDate, setFromDate] = useState(new Date());
     const [toDate, setToDate] = useState(new Date());
@@ -38,17 +37,11 @@ const Work = ({ navigation }) => {
             setStaffsId(sId);
         }
 
-        const token = await AsyncStorage.getItem('userToken');
-        if (token) {
-            setUserToken(token);
-        }
     }
 
     const getWork = async (staffId) => {
 
         setLoading(true);
-
-        console.log("fdate: " + moment(fromDate).format("YYYY-MM-DD") + " todate: " + moment(toDate).format("YYYY-MM-DD"));
 
         let toInput = {
             fromdate: moment(fromDate).format("YYYY-MM-DD"),
@@ -98,8 +91,6 @@ const Work = ({ navigation }) => {
         }
     };
 
-   
-
     const onFromDateChange = (event, selectedDate) => {
         const currentDate = selectedDate;
         if (selectedDate > toDate) {
@@ -117,7 +108,7 @@ const Work = ({ navigation }) => {
             onChange: onFromDateChange,
             mode: 'date',
             is24Hour: true,
-            maximumDate:(new Date())
+            maximumDate: (new Date())
         });
     };
 
@@ -138,15 +129,16 @@ const Work = ({ navigation }) => {
             onChange: onToDateChange,
             mode: 'date',
             is24Hour: true,
-            maximumDate:(new Date())
+            maximumDate: (new Date())
         });
     };
 
     const searchByDate = () => {
-        console.log("FromDate: " + moment(fromDate).format("DD-MMM-YYYY") + " ToDate: " + moment(toDate).format("DD-MMM-YYYY"));
+
+        console.log("MyTracker FromDate: " + moment(fromDate).format("DD-MMM-YYYY") + " ToDate: " + moment(toDate).format("DD-MMM-YYYY"));
 
         getWork(staffsId);
-        
+
     }
 
     return (
@@ -253,5 +245,4 @@ const styles = StyleSheet.create({
         marginStart: 10,
         fontSize: FontSize.smallMedium,
     },
-
 });

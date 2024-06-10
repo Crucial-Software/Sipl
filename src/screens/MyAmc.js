@@ -8,10 +8,10 @@ import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import Snackbar from 'react-native-snackbar';
 import PropTypes from 'prop-types';
 import NoDataFound from '../common/NoDataFound';
-import WorkDprListItem from '../components/WorkDprListItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import MyAmcListItem from '../components/MyAmcListItem';
 
-const WorkDpr = ({ navigation }) => {
+const MyAmc = ({ navigation }) => {
 
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState('');
@@ -131,7 +131,7 @@ const WorkDpr = ({ navigation }) => {
 
     const searchByDate = () => {
 
-        console.log("MyDprs FromDate: " + moment(fromDate).format("DD-MMM-YYYY") + " ToDate: " + moment(toDate).format("DD-MMM-YYYY"));
+        console.log("MyComplain FromDate: " + moment(fromDate).format("DD-MMM-YYYY") + " ToDate: " + moment(toDate).format("DD-MMM-YYYY"));
 
         getWork(staffsId);
 
@@ -190,7 +190,7 @@ const WorkDpr = ({ navigation }) => {
                         keyExtractor={(item, index) => { return index.toString(); }}
                         renderItem={({ item, index }) => {
                             return (
-                                <WorkDprListItem
+                                <MyAmcListItem
                                     item={item}
                                     index={index}
                                     navigation={navigation}
@@ -209,11 +209,11 @@ const WorkDpr = ({ navigation }) => {
     )
 }
 
-WorkDpr.propTypes = {
+MyAmc.propTypes = {
     navigation: PropTypes.object.isRequired,
 };
 
-export default WorkDpr
+export default MyAmc
 
 const styles = StyleSheet.create({
     container: {

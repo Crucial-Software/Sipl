@@ -45,8 +45,6 @@ const AllEmergency = ({ navigation }) => {
 
         setLoading(true);
 
-        console.log("fdate: " + moment(fromDate).format("YYYY-MM-DD") + " todate: " + moment(toDate).format("YYYY-MM-DD"));
-
         let toInput = {
             fromdate: moment(fromDate).format("YYYY-MM-DD"),
             todate: moment(toDate).format("YYYY-MM-DD"),
@@ -310,7 +308,7 @@ const AllEmergency = ({ navigation }) => {
 
     const searchByDate = () => {
 
-        console.log("FromDate: " + moment(fromDate).format("DD-MMM-YYYY") + " ToDate: " + moment(toDate).format("DD-MMM-YYYY"));
+        console.log("All Emergency FromDate: " + moment(fromDate).format("DD-MMM-YYYY") + " ToDate: " + moment(toDate).format("DD-MMM-YYYY"));
 
         getWork(locationId);
 

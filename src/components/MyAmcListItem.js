@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert, TouchableHighlight, Image, TextInput, FlatList } from 'react-native';
-import { Colors, Fonts } from '../common/ConstantStyles';
+import React, { useState } from 'react'
+import { View, Text, TouchableOpacity, StyleSheet, Alert, TouchableHighlight, Image, TextInput, FlatList } from 'react-native'
+import { Colors, Fonts } from '../common/ConstantStyles'
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { launchCamera } from 'react-native-image-picker';
@@ -9,7 +9,7 @@ import { Icon } from 'react-native-elements';
 import { API_BASE } from '../setupProxy';
 import NoDataFound from '../common/NoDataFound';
 
-const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork }) => {
+const MyAmcListItem = ({ item, index, navigation, staffId, functionGetWork }) => {
 
     const [cameraPhoto, setCameraPhoto] = useState(null);
     const [cameraPhotoUri, setCameraPhotoUri] = useState("");
@@ -42,7 +42,6 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
                 console.error('WORK DPR GET ATTACHMENTS There was an error!', error);
                 Snackbar.show({ text: 'Error Occured. Please Try again. ' + error, duration: Snackbar.LENGTH_SHORT })
             })
-
     }
 
     const handleCameraSelection = async () => {
@@ -84,7 +83,7 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
             'Save Image', 'Are you sure you want to upload this image?',
             [
                 { text: 'Cancel', onPress: () => Snackbar.show({ text: 'No Image Saved', duration: Snackbar.LENGTH_SHORT }) },
-                { text: 'OK', onPress: () => uploadDocumentsToDatabase(), },
+                { text: 'OK', onPress: () => uploadDocumentsToDatabase() },
             ], {
             cancelable: false,
         },
@@ -92,9 +91,11 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
 
     }
 
-    const uploadDocumentsToDatabase = () => {
+    const uploadDocumentsToDatabase = async () => {
 
-        const formData = new FormData();
+        console.log("check: " + staffId + " " + item.works_id + " " + remarks);
+
+        let formData = new FormData();
 
         formData.append('image', {
             uri: cameraPhoto.uri,
@@ -102,11 +103,10 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
             name: cameraPhoto.fileName,
             size: cameraPhoto.fileSize,
         });
+        
         formData.append('staffs_id', staffId);
         formData.append('works_id', item.works_id);
         formData.append('remarks', remarks)
-
-        console.log("check: " + staffId + " " + item.works_id + " " + remarks);
 
         const requestOptions = {
             method: 'POST',
@@ -119,6 +119,7 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
 
         fetch(`${API_BASE}/app/work/workphoto`, requestOptions)
             .then(res => {
+                console.log("resp: " + JSON.stringify(res));
                 if (res.ok) {
                     setCameraPhoto(null);
                     setCameraPhotoUri("");
@@ -134,11 +135,12 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
                 setCameraPhoto(null);
                 setCameraPhotoUri("");
             });
+
     }
 
     return (
         <View>
-            <TouchableOpacity onPress={() => { navigation.navigate("Work Details", { workDetailsItem: item, staffId: staffId, functionGetWork: (staffId) => functionGetWork(staffId) }) }}
+            <TouchableOpacity onPress={() => { navigation.navigate("AMC Details", { workDetailsItem: item, staffId: staffId, functionGetWork: (staffId) => functionGetWork(staffId) }) }}
                 style={item.staffworkstatus == "Completed" ? styles.itemContainer1 : styles.itemContainer}>
 
                 <View style={styles.outerView}>
@@ -152,19 +154,10 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
 
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Order No:</Text>
+                        <Text style={styles.itemTextHeading}>Date:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.orderno ? item.orderno : ""}</Text>
-                    </View>
-                </View>
-
-                <View style={styles.outerView}>
-                    <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Application No:</Text>
-                    </View>
-                    <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.applicationno ? item.applicationno : ""}</Text>
+                        <Text style={styles.itemTextContent}>{item.date ? moment(item.date).format("DD-MMM-YYYY") : ""}</Text>
                     </View>
                 </View>
 
@@ -173,7 +166,7 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
                         <Text style={styles.itemTextHeading}>Customer Name:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.customername ? item.customername : ""}</Text>
+                        <Text style={styles.itemTextContent}>{item.name ? item.name : ""}</Text>
                     </View>
                 </View>
 
@@ -182,16 +175,25 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
                         <Text style={styles.itemTextHeading}>Address:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.houseno ? item.houseno : ""}, {item.street1 ? item.street1 : ""}, {item.street2 ? item.street2 : ""}, {item.street3 ? item.street3 : ""}, {item.city ? item.city : ""}, {item.locationname ? item.locationname : ""} - {item.pincode ? item.pincode : ""}</Text>
+                        <Text style={styles.itemTextContent}>{item.houseno ? item.houseno : null}, {item.city ? item.city : ""}</Text>
                     </View>
                 </View>
 
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Contact No:</Text>
+                        <Text style={styles.itemTextHeading}>Description:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.telephone ? item.telephone : ""}</Text>
+                        <Text style={styles.itemTextContent}>{item.description ? item.description : ""}</Text>
+                    </View>
+                </View>
+
+                <View style={styles.outerView}>
+                    <View style={styles.innerHeadingView}>
+                        <Text style={styles.itemTextHeading}>Address:</Text>
+                    </View>
+                    <View style={styles.innerView}>
+                        <Text style={styles.itemTextContent}>{item.customeraddress ? item.customeraddress : ""}</Text>
                     </View>
                 </View>
 
@@ -261,6 +263,7 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
                                 <View style={styles.viewStyle} />
                             </View>
 
+
                             <TouchableOpacity onPress={() => { setCameraPhoto(null); setCameraPhotoUri(""); }}>
                                 <Icon name="cross" type="entypo" size={25} color="#F87171" />
                             </TouchableOpacity>
@@ -271,7 +274,7 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
                     </View>
-                    <View style={styles.innerView}>
+                    <View style={styles.innerView} >
                         {cameraPhotoUri ?
                             <TouchableHighlight onPress={() => { saveImage() }} style={styles.touchableOpacity}>
                                 <Text style={styles.buttonText}>Save</Text>
@@ -281,12 +284,12 @@ const WorkTrackerListItem = ({ item, index, navigation, staffId, functionGetWork
                 </View>
 
             </TouchableOpacity>
-        </View >
+        </View>
 
     );
 }
 
-WorkTrackerListItem.propTypes = {
+MyAmcListItem.propTypes = {
     navigation: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
@@ -294,7 +297,7 @@ WorkTrackerListItem.propTypes = {
     functionGetWork: PropTypes.func.isRequired
 };
 
-export default WorkTrackerListItem
+export default MyAmcListItem
 
 const styles = StyleSheet.create({
     itemContainer: {
@@ -335,6 +338,11 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.bold,
         fontWeight: "bold",
     },
+    itemTextViewImageHeading: {
+        color: Colors.primary,
+        fontFamily: Fonts.bold,
+        fontWeight: "bold",
+    },
     itemTextContent: {
         color: Colors.darkGrey,
         fontFamily: Fonts.regular,
@@ -349,7 +357,7 @@ const styles = StyleSheet.create({
         padding: 5,
     },
     touchableOpacityImages: {
-        width: 120,
+        width: 110,
         marginVertical: 2,
         marginHorizontal: 5,
         borderRadius: 50,

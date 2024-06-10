@@ -62,8 +62,6 @@ const AddEmergency = ({ navigation }) => {
     });
   };
 
-
-
   const [time, setTime] = useState(new Date());
 
   const onTimeChange = (event, selectedTime) => {
