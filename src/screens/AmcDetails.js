@@ -10,6 +10,12 @@ import { CheckBox, Icon } from 'react-native-elements';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { launchCamera } from 'react-native-image-picker';
 import NoDataFound from '../common/NoDataFound';
+import { Dropdown } from 'react-native-element-dropdown';
+
+const List = [
+    { id: 1, status: "Completed" },
+    { id: 2, status: "Pending" },
+]
 
 const AmcDetails = ({ navigation, route }) => {
 
@@ -18,17 +24,17 @@ const AmcDetails = ({ navigation, route }) => {
     const [loading, setLoading] = useState(true);
     const [workDetails, setWorkDetails] = useState([]);
 
-    const [selectedAmc, setSelectedAmc] = useState(null);
-    const [selectedAmcNo, setSelectedAmcNo] = useState(null);
-    const [selectedTouchup, setSelectedTouchup] = useState(null);
+    const [selectedAmc, setSelectedAmc] = useState("");
+    const [selectedAmcNo, setSelectedAmcNo] = useState("");
+    const [selectedTouchup, setSelectedTouchup] = useState("");
     const [touchupNotRequired, setTouchupNotRequired] = useState("Not Required");
-    const [selectedSandFill, setSelectedSandFill] = useState(null);
+    const [selectedSandFill, setSelectedSandFill] = useState("");
     const [sandFillNotRequired, setSandFillNotRequired] = useState("Not Required");
-    const [selectedMmt, setSelectedMmt] = useState(null);
+    const [selectedMmt, setSelectedMmt] = useState("");
     const [mmtNotRequired, setMmtNotRequired] = useState("Not Required");
 
-    const [startTime, setStartTime] = useState(new Date());
-    const [endTime, setEndTime] = useState(new Date());
+    const [startTime, setStartTime] = useState(new Date(moment()));
+    const [endTime, setEndTime] = useState(new Date(moment()));
     const [remarks, setRemarks] = useState("");
 
     const [amcCameraPhoto, setAmcCameraPhoto] = useState(null);
@@ -38,7 +44,7 @@ const AmcDetails = ({ navigation, route }) => {
 
     const [touchupCameraPhoto, setTouchupCameraPhoto] = useState(null);
     const [touchupCameraPhotoUri, setTouchupCameraPhotoUri] = useState("");
-    const [touchupImageList, setTouchupImageList] = useState([]);
+    const [touchupImageList, setTouchupImageList] = useState([]); ``
     const [touchupShowDetails, setTouchupShowDetails] = useState(false);
 
     const [sandFillCameraPhoto, setSandFillCameraPhoto] = useState(null);
@@ -56,10 +62,15 @@ const AmcDetails = ({ navigation, route }) => {
     const [oldRubberTubeReceived, setOldRubberTubeReceived] = useState(false);
     const [oldRtClampReceived, setOldRtClampReceived] = useState(false);
 
-    const getAmcAttachments = async () => {
+    const [statusList, setStatusList] = useState([]);
+    const [statusValue, setStatusValue] = useState(null);
+    const [statusFocus, setStatusFocus] = useState(false);
+    const [selectedStatus, setSelectedStatus] = useState("");
+
+    const getAllAttachments = async () => {
 
         let toInput = {
-            works_id: item.works_id,
+            works_id: workDetailsItem.works_id,
         };
 
         await fetch(`https://shrikarniinfra.in/app/work/photolist`, {
@@ -68,74 +79,21 @@ const AmcDetails = ({ navigation, route }) => {
             body: JSON.stringify(toInput)
         }).then((response) => response.json())
             .then((response) => {
-                if (response.model) {
-                    setAmcImageList(response.model);
-                }
+                console.log("Image: " + JSON.stringify(response.model));
+                setAmcImageList(response.model.filter(item => {
+                    return item.remarks === "AMC_AMC"
+                }))
+                setSandFillImageList(response.model.filter(item => {
+                    return item.remarks === "AMC_SANDFILL"
+                }))
+                setTouchupImageList(response.model.filter(item => {
+                    return item.remarks === "AMC_TOUCHUP"
+                }))
+                setMmtImageList(response.model.filter(item => {
+                    return item.remarks === "AMC_MMT"
+                }))
             }).catch((error) => {
                 console.error('AMC GET ATTACHMENTS There was an error!', error);
-                Snackbar.show({ text: 'Error Occured. Please Try again. ' + error, duration: Snackbar.LENGTH_SHORT })
-            })
-    }
-
-    const getTouchupAttachments = async () => {
-
-        let toInput = {
-            works_id: item.works_id,
-        };
-
-        await fetch(`https://shrikarniinfra.in/app/work/photolist`, {
-            method: "POST",
-            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify(toInput)
-        }).then((response) => response.json())
-            .then((response) => {
-                if (response.model) {
-                    setTouchupImageList(response.model);
-                }
-            }).catch((error) => {
-                console.error('TOUCHUP GET ATTACHMENTS There was an error!', error);
-                Snackbar.show({ text: 'Error Occured. Please Try again. ' + error, duration: Snackbar.LENGTH_SHORT })
-            })
-    }
-
-    const getSandFillAttachments = async () => {
-
-        let toInput = {
-            works_id: item.works_id,
-        };
-
-        await fetch(`https://shrikarniinfra.in/app/work/photolist`, {
-            method: "POST",
-            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify(toInput)
-        }).then((response) => response.json())
-            .then((response) => {
-                if (response.model) {
-                    setSandFillImageList(response.model);
-                }
-            }).catch((error) => {
-                console.error('TOUCHUP GET ATTACHMENTS There was an error!', error);
-                Snackbar.show({ text: 'Error Occured. Please Try again. ' + error, duration: Snackbar.LENGTH_SHORT })
-            })
-    }
-
-    const getMmtAttachments = async () => {
-
-        let toInput = {
-            works_id: item.works_id,
-        };
-
-        await fetch(`https://shrikarniinfra.in/app/work/photolist`, {
-            method: "POST",
-            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify(toInput)
-        }).then((response) => response.json())
-            .then((response) => {
-                if (response.model) {
-                    setMmtImageList(response.model);
-                }
-            }).catch((error) => {
-                console.error('TOUCHUP GET ATTACHMENTS There was an error!', error);
                 Snackbar.show({ text: 'Error Occured. Please Try again. ' + error, duration: Snackbar.LENGTH_SHORT })
             })
     }
@@ -206,7 +164,7 @@ const AmcDetails = ({ navigation, route }) => {
 
     const uploadDocumentsToDatabase = async (type) => {
 
-        console.log("check: " + staffId + " " + item.works_id + " " + remarks);
+        console.log("type: " + type + " " + staffId + " " + workDetailsItem.id);
 
         let formData = new FormData();
 
@@ -217,6 +175,7 @@ const AmcDetails = ({ navigation, route }) => {
                 name: amcCameraPhoto.fileName,
                 size: amcCameraPhoto.fileSize,
             });
+            formData.append('remarks', "AMC_AMC")
         } else if (type == "touchup") {
             formData.append('image', {
                 uri: touchupCameraPhoto.uri,
@@ -224,13 +183,15 @@ const AmcDetails = ({ navigation, route }) => {
                 name: touchupCameraPhoto.fileName,
                 size: touchupCameraPhoto.fileSize,
             });
+            formData.append('remarks', "AMC_TOUCHUP")
         } else if (type == "sandfill") {
             formData.append('image', {
                 uri: sandFillCameraPhoto.uri,
                 type: sandFillCameraPhoto.type,
                 name: sandFillCameraPhoto.fileName,
-                size: amcCasandFillCameraPhotomeraPhoto.fileSize,
+                size: sandFillCameraPhoto.fileSize,
             });
+            formData.append('remarks', "AMC_SANDFILL")
         } else if (type == "mmt") {
             formData.append('image', {
                 uri: mmtCameraPhoto.uri,
@@ -238,11 +199,11 @@ const AmcDetails = ({ navigation, route }) => {
                 name: mmtCameraPhoto.fileName,
                 size: mmtCameraPhoto.fileSize,
             });
+            formData.append('remarks', "AMC_MMT")
         }
 
         formData.append('staffs_id', staffId);
-        formData.append('works_id', item.works_id);
-        formData.append('remarks', remarks)
+        formData.append('works_id', workDetailsItem.works_id);
 
         const requestOptions = {
             method: 'POST',
@@ -253,12 +214,13 @@ const AmcDetails = ({ navigation, route }) => {
             },
         };
 
-        fetch(`${API_BASE}/app/work/workphoto`, requestOptions)
+        console.log("req Options: " + JSON.stringify(requestOptions));
+
+        await fetch(`${API_BASE}/app/work/workphoto`, requestOptions)
             .then(res => {
                 console.log("resp: " + JSON.stringify(res));
                 if (res.ok) {
                     clearData(type);
-
                 } else {
                     Snackbar.show({ text: 'Not Uploaded. Please try again. ', duration: Snackbar.LENGTH_SHORT })
                 }
@@ -266,35 +228,32 @@ const AmcDetails = ({ navigation, route }) => {
             .catch(error => {
                 Snackbar.show({ text: 'Error occured while uploading. Please try again. ', duration: Snackbar.LENGTH_SHORT })
                 console.log("error : " + error);
-                setAmcCameraPhoto(null);
-                setAmcCameraPhotoUri("");
             });
 
     }
 
     const clearData = (type) => {
+        getAllAttachments();
         if (type === "amc") {
             setAmcCameraPhoto(null);
             setAmcCameraPhotoUri("");
-            getAmcAttachments();
         } else if (type == "touchup") {
             setTouchupCameraPhoto(null);
             setTouchupCameraPhotoUri("");
-            getTouchupAttachments();
         } else if (type == "sandfill") {
             setSandFillCameraPhoto(null);
             setSandFillCameraPhotoUri("");
-            getSandFillAttachments();
         } else if (type == "mmt") {
             setMmtCameraPhoto(null);
             setMmtCameraPhotoUri("");
-            getMmtAttachments();
         }
     }
 
     useEffect(() => {
 
+        getAllAttachments();
         getWorkDetails();
+        setStatusList(List);
 
     }, []);
 
@@ -302,8 +261,53 @@ const AmcDetails = ({ navigation, route }) => {
         if (workDetailsItem !== null || workDetailsItem !== "") {
             setLoading(false);
             setWorkDetails(workDetailsItem);
+            console.log("workAMCDetails: " + JSON.stringify(workDetailsItem));
         }
-        setRemarks(workDetailsItem.remarks2);
+
+        setSelectedAmc(workDetailsItem.amcdone);
+        setSelectedAmcNo(workDetailsItem.amcremarks);
+        setSelectedSandFill(workDetailsItem.sandfilldone);
+        setSandFillNotRequired(workDetailsItem.sandfillremarks);
+        setSelectedTouchup(workDetailsItem.touchupdone);
+        setTouchupNotRequired(workDetailsItem.touchupremarks);
+        setSelectedMmt(workDetailsItem.mmtdone);
+        setMmtNotRequired(workDetailsItem.mmtremarks);
+
+        if (workDetailsItem.starttime == null) {
+            setStartTime(new Date(moment()));
+        } else {
+            setStartTime(new Date(workDetailsItem.starttime));
+        }
+
+        if (workDetailsItem.starttime == null) {
+            setEndTime(new Date(moment()));
+        } else {
+            setEndTime(new Date(workDetailsItem.endtime));
+        }
+
+        setRemarks(workDetailsItem.remarks);
+        setStatusValue(workDetailsItem.staffworkstatus);
+        setSelectedStatus(workDetailsItem.staffworkstatus);
+        if (workDetailsItem.rubbertubeused === "Yes") {
+            setRubberTubeChecked(true);
+        } else {
+            setRubberTubeChecked(false);
+        }
+        if (workDetailsItem.rtclamapused === "Yes") {
+            setRtClampChecked(true);
+        } else {
+            setRtClampChecked(false);
+        }
+        if (workDetailsItem.oldrubbertubereturned === "Yes") {
+            setOldRubberTubeReceived(true);
+        } else {
+            setOldRubberTubeReceived(false);
+        }
+        if (workDetailsItem.oldrtclapmreturned === "Yes") {
+            setOldRtClampReceived(true);
+        } else {
+            setOldRtClampReceived(false);
+        }
     }
 
     const saveData = async () => {
@@ -311,48 +315,121 @@ const AmcDetails = ({ navigation, route }) => {
             Keyboard.dismiss();
         }
 
-        console.log(
-            " staffs_id: " + staffId +
-            " worksid: " + workDetailsItem.id +
-            " worktype: " + "dprs" +
-            " remarks: " + remarks
-        );
+        let rubberTube, rtClamp, oldRubberTube, oldRtClamp;
+        if (rubberTubeChecked) {
+            rubberTube = "Yes";
+        } else {
+            rubberTube = "No";
+        }
 
+        if (rtClampChecked) {
+            rtClamp = "Yes";
+        } else {
+            rtClamp = "No";
+        }
+
+        if (oldRubberTubeReceived) {
+            oldRubberTube = "Yes";
+        } else {
+            oldRubberTube = "No";
+        }
+
+        if (oldRtClampReceived) {
+            oldRtClamp = "Yes";
+        } else {
+            oldRtClamp = "No";
+        }
+
+        if (selectedAmc == "" || selectedTouchup == null) {
+            Snackbar.show({ text: 'Please Select AMC', duration: Snackbar.LENGTH_SHORT });
+        } else if (selectedAmc == "Yes" && amcImageList.length == 0) {
+            setSelectedAmcNo(null);
+            Snackbar.show({ text: 'Select & Upload Image for AMC', duration: Snackbar.LENGTH_SHORT });
+        } else if (selectedAmc == "No" && (selectedAmcNo == null || selectedAmc == "undefined")) {
+            Snackbar.show({ text: 'Please Select AMC Remarks', duration: Snackbar.LENGTH_SHORT });
+        }
+        else if (selectedSandFill == "" || selectedSandFill == null) {
+            Snackbar.show({ text: 'Please Select Sandfill', duration: Snackbar.LENGTH_SHORT });
+        } else if (selectedSandFill == "Yes" && sandFillImageList.length == 0) {
+            setSandFillNotRequired(null);
+            Snackbar.show({ text: 'Select & Upload Image for Sandfill', duration: Snackbar.LENGTH_SHORT });
+        } else if (selectedSandFill == "No" && sandFillNotRequired == null) {
+            Snackbar.show({ text: 'Please Enter Sandfill Remarks', duration: Snackbar.LENGTH_SHORT });
+        }
+        else if (selectedTouchup == "" || selectedTouchup == null) {
+            Snackbar.show({ text: 'Please Select Touchup', duration: Snackbar.LENGTH_SHORT });
+        } else if (selectedTouchup == "Yes" && touchupImageList.length == 0) {
+            setTouchupNotRequired(null);
+            Snackbar.show({ text: 'Select & Upload Image for Touchup', duration: Snackbar.LENGTH_SHORT });
+        } else if (selectedTouchup == "No" && touchupNotRequired == null) {
+            Snackbar.show({ text: 'Please Enter Touchup Remarks', duration: Snackbar.LENGTH_SHORT });
+        }
+        else if (selectedMmt == "" || selectedMmt == null) {
+            Snackbar.show({ text: 'Please Select MMT', duration: Snackbar.LENGTH_SHORT });
+        } else if (selectedMmt == "Yes" && mmtImageList.length == 0) {
+            setMmtNotRequired(null);
+            Snackbar.show({ text: 'Select & Upload Image for MMT', duration: Snackbar.LENGTH_SHORT });
+        } else if (selectedMmt == "No" && mmtNotRequired == null) {
+            Snackbar.show({ text: 'Please Enter MMT Remarks', duration: Snackbar.LENGTH_SHORT });
+        }
+        else if (remarks == "" || remarks == null) {
+            Snackbar.show({ text: 'Please enter remarks', duration: Snackbar.LENGTH_SHORT });
+        }
+        else if (startTime.toString() === endTime.toString() || startTime.toString() > endTime.toString()) {
+            Snackbar.show({ text: 'Please change start time or end time ', duration: Snackbar.LENGTH_SHORT });
+        } else {
+            
+            let toInput = {
+                worksid: workDetailsItem.id,
+                staffs_id: staffId,
+                amcdone: selectedAmc,
+                amcremarks: selectedAmcNo,
+                sandfilldone: selectedSandFill,
+                sandfillremarks: sandFillNotRequired,
+                mmtdone: selectedMmt,
+                mmtremarks: mmtNotRequired,
+                touchupdone: selectedTouchup,
+                touchupremarks: touchupNotRequired,
+                starttime: moment(startTime).format("YYYY-MM-DD HH:mm:ss"),
+                endtime: moment(endTime).format("YYYY-MM-DD HH:mm:ss"),
+                remarks: remarks,
+                rubbertubeused: rubberTube,
+                rtclamapused: rtClamp,
+                oldrubbertubereturned: oldRubberTube,
+                oldrtclapmreturned: oldRtClamp,
+                status: selectedStatus
+            };
+
+            console.log("Input: " + JSON.stringify(toInput));
+
+            updateAMCWork(toInput);
+
+        }
+    }
+
+    const updateAMCWork = async (input) => {
 
         setLoading(true);
 
-        let toInput = {
-            worksid: workDetailsItem.id,
-            worktype: "dprs",
-            staffs_id: staffId,
-            remarks: remarks
-        };
-
-        await fetch(`${API_BASE}/app/work/updatework`, {
+        await fetch(`${API_BASE}/app/work/updateamc`, {
             method: "POST",
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify(toInput)
+            body: JSON.stringify(input)
         })
             .then((response) => response.json())
             .then((response) => {
-
+                console.log("resp: " + JSON.stringify(response));
                 setLoading(false);
-
+                Snackbar.show({ text: '' + response.message, duration: Snackbar.LENGTH_SHORT });
                 if (response.code == 1) {
                     functionGetWork(staffId);
-                    Snackbar.show({ text: '' + response.message, duration: Snackbar.LENGTH_SHORT });
-                } else {
-                    Snackbar.show({ text: '' + response.message, duration: Snackbar.LENGTH_SHORT });
                 }
-
             })
             .catch((error) => {
                 setLoading(false);
-                console.error('WORK DETAILS DPRS There was an error!', error);
+                console.error('WORK DETAILS AMC There was an error!', error);
                 Snackbar.show({ text: 'Error Occured. Please Try again. ' + error, duration: Snackbar.LENGTH_SHORT })
             })
-
-
     }
 
     const onStartTimeChange = (event, selectedTime) => {
@@ -398,16 +475,34 @@ const AmcDetails = ({ navigation, route }) => {
 
                             <View style={styles.outerView}>
                                 <View style={styles.innerHeadingView}>
+                                    <Text style={styles.itemTextHeading}>Works Id:</Text>
+                                </View>
+                                <View style={styles.innerView}>
+                                    <Text style={styles.itemTextContent}>{workDetails.works_id ? workDetails.works_id : ""}</Text>
+                                </View>
+                            </View>
+
+                            {/* <View style={styles.outerView}>
+                                <View style={styles.innerHeadingView}>
+                                    <Text style={styles.itemTextHeading}>Date:</Text>
+                                </View>
+                                <View style={styles.innerView}>
+                                    <Text style={styles.itemTextContent}>{workDetails.date ? moment(workDetails.date).format("DD-MMM-YYYY") : ""}</Text>
+                                </View>
+                            </View> */}
+
+                            <View style={styles.outerView}>
+                                <View style={styles.innerHeadingView}>
                                     <Text style={styles.itemTextHeading}>Customer Name:</Text>
                                 </View>
                                 <View style={styles.innerView}>
-                                    <Text style={styles.itemTextContent}>{workDetails.name ? workDetails.name : ""}</Text>
+                                    <Text style={styles.itemTextContent}>{workDetails.customer_name ? workDetails.customer_name : ""}</Text>
                                 </View>
                             </View>
 
                             <View style={styles.outerView}>
                                 <View style={styles.innerHeadingView}>
-                                    <Text style={styles.itemTextHeading}>House No./City:</Text>
+                                    <Text style={styles.itemTextHeading}>Address:</Text>
                                 </View>
                                 <View style={styles.innerView}>
                                     <Text style={styles.itemTextContent}>{workDetails.houseno ? workDetails.houseno + ", " : ""} {workDetails.city ? workDetails.city : ""}</Text>
@@ -416,48 +511,13 @@ const AmcDetails = ({ navigation, route }) => {
 
                             <View style={styles.outerView}>
                                 <View style={styles.innerHeadingView}>
-                                    <Text style={styles.itemTextHeading}>Description:</Text>
+                                    <Text style={styles.itemTextHeading}>Assign DateTime:</Text>
                                 </View>
                                 <View style={styles.innerView}>
-                                    <Text style={styles.itemTextContent}>{workDetails.description ? workDetails.description : ""}</Text>
+                                    <Text style={styles.itemTextContent}>{workDetails.assigneddatetime ? moment(workDetails.assigneddatetime).format("DD-MMM-YYYY") : ""}</Text>
                                 </View>
                             </View>
 
-                            <View style={styles.outerView}>
-                                <View style={styles.innerHeadingView}>
-                                    <Text style={styles.itemTextHeading}>Notification Dt.:</Text>
-                                </View>
-                                <View style={styles.innerView}>
-                                    <Text style={styles.itemTextContent}>{workDetails.notificationdate ? moment(workDetails.notificationdate).format("DD-MMM-YYYY") : ""}</Text>
-                                </View>
-                            </View>
-
-                            <View style={styles.outerView}>
-                                <View style={styles.innerHeadingView}>
-                                    <Text style={styles.itemTextHeading}>Notification Type:</Text>
-                                </View>
-                                <View style={styles.innerView}>
-                                    <Text style={styles.itemTextContent}>{workDetails.notificationtype ? workDetails.notificationtype : ""}</Text>
-                                </View>
-                            </View>
-
-                            <View style={styles.outerView}>
-                                <View style={styles.innerHeadingView}>
-                                    <Text style={styles.itemTextHeading}>Segment:</Text>
-                                </View>
-                                <View style={styles.innerView}>
-                                    <Text style={styles.itemTextContent}>{workDetails.segment ? workDetails.segment : ""}</Text>
-                                </View>
-                            </View>
-
-                            <View style={styles.outerView}>
-                                <View style={styles.innerHeadingView}>
-                                    <Text style={styles.itemTextHeading}>SLA:</Text>
-                                </View>
-                                <View style={styles.innerView}>
-                                    <Text style={styles.itemTextContent}>{workDetails.sla ? workDetails.sla : ""}</Text>
-                                </View>
-                            </View>
                         </View>
 
                         <View style={styles.itemContainer1}>
@@ -466,8 +526,8 @@ const AmcDetails = ({ navigation, route }) => {
                                 <View style={styles.outerView}>
                                     <View style={{ flex: 1 }} >
                                         <CheckBox
-                                            checked={selectedAmc == 0}
-                                            onPress={() => setSelectedAmc(0)}
+                                            checked={selectedAmc == "Yes"}
+                                            onPress={() => setSelectedAmc("Yes")}
                                             checkedIcon="dot-circle-o"
                                             uncheckedIcon="circle-o"
                                             checkedColor={Colors.primary}
@@ -477,8 +537,8 @@ const AmcDetails = ({ navigation, route }) => {
                                     </View>
                                     <View style={{ flex: 1 }} >
                                         <CheckBox
-                                            checked={selectedAmc == 1}
-                                            onPress={() => setSelectedAmc(1)}
+                                            checked={selectedAmc == "No"}
+                                            onPress={() => setSelectedAmc("No")}
                                             checkedIcon="dot-circle-o"
                                             uncheckedIcon="circle-o"
                                             checkedColor={Colors.primary}
@@ -487,12 +547,12 @@ const AmcDetails = ({ navigation, route }) => {
                                         />
                                     </View>
                                 </View>
-                                {selectedAmc == 0 ?
+                                {selectedAmc == "Yes" ?
                                     <View style={styles.itemContainer1}>
                                         <Text style={styles.textHeading}>Images</Text>
                                         <View style={{ flexDirection: "row" }}>
 
-                                            <TouchableHighlight onPress={() => { setAmcShowDetails(!amcShowDetails); getAmcAttachments(); }} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
+                                            <TouchableHighlight onPress={() => { setAmcShowDetails(!amcShowDetails); }} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
                                                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                                                     <Icon name="image" type="font-awesome" size={12} color={Colors.primary} />
                                                     <Text style={styles.buttonTextPhoto}>View Images</Text>
@@ -540,7 +600,7 @@ const AmcDetails = ({ navigation, route }) => {
                                             <View style={styles.innerView} >
                                                 {amcCameraPhotoUri ?
                                                     <TouchableHighlight onPress={() => { saveImage("amc") }} style={styles.touchableOpacitySave}>
-                                                        <Text style={styles.buttonTextSave}>Save</Text>
+                                                        <Text style={styles.buttonTextSave}>Upload Image</Text>
                                                     </TouchableHighlight>
                                                     : null}
                                             </View>
@@ -549,13 +609,13 @@ const AmcDetails = ({ navigation, route }) => {
                                     </View>
                                     :
                                     <View>
-                                        {selectedAmc == 1 ?
+                                        {selectedAmc == "No" ?
                                             <View style={styles.itemContainer1}>
                                                 <Text style={styles.textHeading}>Remarks</Text>
                                                 <View style={{ flex: 1 }} >
                                                     <CheckBox
-                                                        checked={selectedAmcNo == 0}
-                                                        onPress={() => setSelectedAmcNo(0)}
+                                                        checked={selectedAmcNo == "House Closed"}
+                                                        onPress={() => setSelectedAmcNo("House Closed")}
                                                         checkedIcon="dot-circle-o"
                                                         uncheckedIcon="circle-o"
                                                         checkedColor={Colors.primary}
@@ -565,8 +625,8 @@ const AmcDetails = ({ navigation, route }) => {
                                                 </View>
                                                 <View style={{ flex: 1 }} >
                                                     <CheckBox
-                                                        checked={selectedAmcNo == 1}
-                                                        onPress={() => setSelectedAmcNo(1)}
+                                                        checked={selectedAmcNo == "Not Agree"}
+                                                        onPress={() => setSelectedAmcNo("Not Agree")}
                                                         checkedIcon="dot-circle-o"
                                                         uncheckedIcon="circle-o"
                                                         checkedColor={Colors.primary}
@@ -588,8 +648,8 @@ const AmcDetails = ({ navigation, route }) => {
                                 <View style={styles.outerView}>
                                     <View style={{ flex: 1 }} >
                                         <CheckBox
-                                            checked={selectedTouchup == 0}
-                                            onPress={() => setSelectedTouchup(0)}
+                                            checked={selectedTouchup == "Yes"}
+                                            onPress={() => setSelectedTouchup("Yes")}
                                             checkedIcon="dot-circle-o"
                                             uncheckedIcon="circle-o"
                                             checkedColor={Colors.primary}
@@ -599,8 +659,8 @@ const AmcDetails = ({ navigation, route }) => {
                                     </View>
                                     <View style={{ flex: 1 }} >
                                         <CheckBox
-                                            checked={selectedTouchup == 1}
-                                            onPress={() => setSelectedTouchup(1)}
+                                            checked={selectedTouchup == "No"}
+                                            onPress={() => setSelectedTouchup("No")}
                                             checkedIcon="dot-circle-o"
                                             uncheckedIcon="circle-o"
                                             checkedColor={Colors.primary}
@@ -609,12 +669,12 @@ const AmcDetails = ({ navigation, route }) => {
                                         />
                                     </View>
                                 </View>
-                                {selectedTouchup == 0 ?
+                                {selectedTouchup == "Yes" ?
                                     <View style={styles.itemContainer1}>
                                         <Text style={styles.textHeading}>Images</Text>
                                         <View style={{ flexDirection: "row" }}>
 
-                                            <TouchableHighlight onPress={() => { setTouchupShowDetails(!touchupShowDetails); getTouchupAttachments(); }} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
+                                            <TouchableHighlight onPress={() => { setTouchupShowDetails(!touchupShowDetails); }} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
                                                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                                                     <Icon name="image" type="font-awesome" size={12} color={Colors.primary} />
                                                     <Text style={styles.buttonTextPhoto}>View Images</Text>
@@ -662,7 +722,7 @@ const AmcDetails = ({ navigation, route }) => {
                                             <View style={styles.innerView} >
                                                 {touchupCameraPhotoUri ?
                                                     <TouchableHighlight onPress={() => { saveImage("touchup") }} style={styles.touchableOpacitySave}>
-                                                        <Text style={styles.buttonTextSave}>Save</Text>
+                                                        <Text style={styles.buttonTextSave}>Upload Image</Text>
                                                     </TouchableHighlight>
                                                     : null}
                                             </View>
@@ -671,7 +731,7 @@ const AmcDetails = ({ navigation, route }) => {
                                     </View>
                                     :
                                     <View>
-                                        {selectedTouchup == 1 ?
+                                        {selectedTouchup == "No" ?
                                             <View style={styles.itemContainer1}>
                                                 <Text style={styles.textHeading}>Remarks</Text>
                                                 <View style={{ flex: 1 }} >
@@ -691,8 +751,8 @@ const AmcDetails = ({ navigation, route }) => {
                                 <View style={styles.outerView}>
                                     <View style={{ flex: 1 }} >
                                         <CheckBox
-                                            checked={selectedSandFill == 0}
-                                            onPress={() => setSelectedSandFill(0)}
+                                            checked={selectedSandFill == "Yes"}
+                                            onPress={() => setSelectedSandFill("Yes")}
                                             checkedIcon="dot-circle-o"
                                             uncheckedIcon="circle-o"
                                             checkedColor={Colors.primary}
@@ -702,8 +762,8 @@ const AmcDetails = ({ navigation, route }) => {
                                     </View>
                                     <View style={{ flex: 1 }} >
                                         <CheckBox
-                                            checked={selectedSandFill == 1}
-                                            onPress={() => setSelectedSandFill(1)}
+                                            checked={selectedSandFill == "No"}
+                                            onPress={() => setSelectedSandFill("No")}
                                             checkedIcon="dot-circle-o"
                                             uncheckedIcon="circle-o"
                                             checkedColor={Colors.primary}
@@ -712,12 +772,12 @@ const AmcDetails = ({ navigation, route }) => {
                                         />
                                     </View>
                                 </View>
-                                {selectedSandFill == 0 ?
+                                {selectedSandFill == "Yes" ?
                                     <View style={styles.itemContainer1}>
                                         <Text style={styles.textHeading}>Images</Text>
                                         <View style={{ flexDirection: "row" }}>
 
-                                            <TouchableHighlight onPress={() => { setSandFillShowDetails(!sandFillShowDetails); getSandFillAttachments(); }} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
+                                            <TouchableHighlight onPress={() => { setSandFillShowDetails(!sandFillShowDetails); }} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
                                                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                                                     <Icon name="image" type="font-awesome" size={12} color={Colors.primary} />
                                                     <Text style={styles.buttonTextPhoto}>View Images</Text>
@@ -765,7 +825,7 @@ const AmcDetails = ({ navigation, route }) => {
                                             <View style={styles.innerView} >
                                                 {sandFillCameraPhotoUri ?
                                                     <TouchableHighlight onPress={() => { saveImage("sandfill") }} style={styles.touchableOpacitySave}>
-                                                        <Text style={styles.buttonTextSave}>Save</Text>
+                                                        <Text style={styles.buttonTextSave}>Upload Image</Text>
                                                     </TouchableHighlight>
                                                     : null}
                                             </View>
@@ -774,7 +834,7 @@ const AmcDetails = ({ navigation, route }) => {
                                     </View>
                                     :
                                     <View>
-                                        {selectedSandFill == 1 ?
+                                        {selectedSandFill == "No" ?
                                             <View style={styles.itemContainer1}>
                                                 <Text style={styles.textHeading}>Remarks</Text>
                                                 <View style={{ flex: 1 }} >
@@ -794,8 +854,8 @@ const AmcDetails = ({ navigation, route }) => {
                                 <View style={styles.outerView}>
                                     <View style={{ flex: 1 }} >
                                         <CheckBox
-                                            checked={selectedMmt == 0}
-                                            onPress={() => setSelectedMmt(0)}
+                                            checked={selectedMmt == "Yes"}
+                                            onPress={() => setSelectedMmt("Yes")}
                                             checkedIcon="dot-circle-o"
                                             uncheckedIcon="circle-o"
                                             checkedColor={Colors.primary}
@@ -805,8 +865,8 @@ const AmcDetails = ({ navigation, route }) => {
                                     </View>
                                     <View style={{ flex: 1 }} >
                                         <CheckBox
-                                            checked={selectedMmt == 1}
-                                            onPress={() => setSelectedMmt(1)}
+                                            checked={selectedMmt == "No"}
+                                            onPress={() => setSelectedMmt("No")}
                                             checkedIcon="dot-circle-o"
                                             uncheckedIcon="circle-o"
                                             checkedColor={Colors.primary}
@@ -815,12 +875,12 @@ const AmcDetails = ({ navigation, route }) => {
                                         />
                                     </View>
                                 </View>
-                                {selectedMmt == 0 ?
+                                {selectedMmt == "Yes" ?
                                     <View style={styles.itemContainer1}>
                                         <Text style={styles.textHeading}>Images</Text>
                                         <View style={{ flexDirection: "row" }}>
 
-                                            <TouchableHighlight onPress={() => { setMmtShowDetails(!mmtShowDetails); getMmtAttachments(); }} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
+                                            <TouchableHighlight onPress={() => { setMmtShowDetails(!mmtShowDetails); }} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
                                                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                                                     <Icon name="image" type="font-awesome" size={12} color={Colors.primary} />
                                                     <Text style={styles.buttonTextPhoto}>View Images</Text>
@@ -868,7 +928,7 @@ const AmcDetails = ({ navigation, route }) => {
                                             <View style={styles.innerView} >
                                                 {mmtCameraPhotoUri ?
                                                     <TouchableHighlight onPress={() => { saveImage("mmt") }} style={styles.touchableOpacitySave}>
-                                                        <Text style={styles.buttonTextSave}>Save</Text>
+                                                        <Text style={styles.buttonTextSave}>Upload Image</Text>
                                                     </TouchableHighlight>
                                                     : null}
                                             </View>
@@ -877,7 +937,7 @@ const AmcDetails = ({ navigation, route }) => {
                                     </View>
                                     :
                                     <View>
-                                        {selectedMmt == 1 ?
+                                        {selectedMmt == "No" ?
                                             <View style={styles.itemContainer1}>
                                                 <Text style={styles.textHeading}>Remarks</Text>
                                                 <View style={{ flex: 1 }} >
@@ -933,48 +993,75 @@ const AmcDetails = ({ navigation, route }) => {
                             </View>
 
                             <View style={styles.contentViewStyle}>
-                            <Text style={styles.textHeading}>Material Used</Text>
-                            <CheckBox
-                                checked={rubberTubeChecked}
-                                onPress={() => { setRubberTubeChecked(!rubberTubeChecked); }}
-                                iconType="material-community"
-                                checkedIcon="checkbox-outline"
-                                uncheckedIcon={'checkbox-blank-outline'}
-                                title="Rubber Tube"
-                                checkedColor={Colors.primary}
-                            />
-                            <CheckBox
-                                checked={rtClampChecked}
-                                onPress={() => { setRtClampChecked(!rtClampChecked); }}
-                                iconType="material-community"
-                                checkedIcon="checkbox-outline"
-                                uncheckedIcon={'checkbox-blank-outline'}
-                                title="RT Clamp"
-                                checkedColor={Colors.primary}
-                            />
-                        </View>
+                                <Text style={styles.textHeading}>Material Used</Text>
+                                <CheckBox
+                                    checked={rubberTubeChecked}
+                                    onPress={() => { setRubberTubeChecked(!rubberTubeChecked); }}
+                                    iconType="material-community"
+                                    checkedIcon="checkbox-outline"
+                                    uncheckedIcon={'checkbox-blank-outline'}
+                                    title="Rubber Tube"
+                                    checkedColor={Colors.primary}
+                                />
+                                <CheckBox
+                                    checked={rtClampChecked}
+                                    onPress={() => { setRtClampChecked(!rtClampChecked); }}
+                                    iconType="material-community"
+                                    checkedIcon="checkbox-outline"
+                                    uncheckedIcon={'checkbox-blank-outline'}
+                                    title="RT Clamp"
+                                    checkedColor={Colors.primary}
+                                />
+                            </View>
 
-                        <View style={styles.contentViewStyle}>
-                            <Text style={styles.textHeading}>Material Return</Text>
-                            <CheckBox
-                                checked={oldRubberTubeReceived}
-                                onPress={() => { setOldRubberTubeReceived(!oldRubberTubeReceived); }}
-                                iconType="material-community"
-                                checkedIcon="checkbox-outline"
-                                uncheckedIcon={'checkbox-blank-outline'}
-                                title="Old Rubber Tube Received"
-                                checkedColor={Colors.primary}
-                            />
-                            <CheckBox
-                                checked={oldRtClampReceived}
-                                onPress={() => { setOldRtClampReceived(!oldRtClampReceived); }}
-                                iconType="material-community"
-                                checkedIcon="checkbox-outline"
-                                uncheckedIcon={'checkbox-blank-outline'}
-                                title="Old RT Clamp Received"
-                                checkedColor={Colors.primary}
-                            />
-                        </View>
+                            <View style={styles.contentViewStyle}>
+                                <Text style={styles.textHeading}>Material Return</Text>
+                                <CheckBox
+                                    checked={oldRubberTubeReceived}
+                                    onPress={() => { setOldRubberTubeReceived(!oldRubberTubeReceived); }}
+                                    iconType="material-community"
+                                    checkedIcon="checkbox-outline"
+                                    uncheckedIcon={'checkbox-blank-outline'}
+                                    title="Old Rubber Tube Received"
+                                    checkedColor={Colors.primary}
+                                />
+                                <CheckBox
+                                    checked={oldRtClampReceived}
+                                    onPress={() => { setOldRtClampReceived(!oldRtClampReceived); }}
+                                    iconType="material-community"
+                                    checkedIcon="checkbox-outline"
+                                    uncheckedIcon={'checkbox-blank-outline'}
+                                    title="Old RT Clamp Received"
+                                    checkedColor={Colors.primary}
+                                />
+                            </View>
+
+                            <View style={styles.contentViewStyle}>
+                                <Text style={styles.textHeading}>Status</Text>
+                                <Dropdown
+                                    style={styles.dropdown}
+                                    placeholderStyle={styles.placeholderStyle}
+                                    selectedTextStyle={styles.selectedTextStyle}
+                                    inputSearchStyle={styles.inputSearchStyle}
+                                    itemTextStyle={styles.itemTextStyle}
+                                    data={statusList}
+                                    maxHeight={300}
+                                    keyboardAvoiding
+                                    activeColor={Colors.primaryLight2}
+                                    labelField="status"
+                                    valueField="status"
+                                    placeholder={!(statusFocus) ? '- Select -' : '...'}
+                                    value={statusValue}
+                                    onFocus={() => { setStatusFocus(true); }}
+                                    onBlur={() => { setStatusFocus(false); }}
+                                    onChange={item => {
+                                        setStatusValue(item.status);
+                                        setStatusFocus(false);
+                                        setSelectedStatus(item.status);
+                                    }}
+                                />
+                                <View style={styles.viewStyle} />
+                            </View>
 
 
                         </View>
@@ -1142,7 +1229,7 @@ const styles = StyleSheet.create({
         padding: 5,
     },
     touchableOpacitySave: {
-        width: 75,
+        width: 125,
         backgroundColor: Colors.primary,
         borderRadius: 50,
         padding: 8,

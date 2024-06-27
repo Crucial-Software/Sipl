@@ -24,15 +24,16 @@ const AllComplainListItem = ({ item, onSelect, isCheckbox, functionGetWork }: It
     return (
         <View>
 
-            <TouchableOpacity style={item.works.length == 0 ? styles.itemContainer : item.status == 'Completed'? styles.itemContainer2 : styles.itemContainer1} >
+            <TouchableOpacity style={item.works.length == 0 ? styles.itemContainer : item.status == 'Completed' ? styles.itemContainer2 : styles.itemContainer1} >
 
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Date:</Text>
+                        <Text style={styles.itemTextHeading}>Customer No.:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.date ? moment(item.date).format("DD-MMM-YYYY") : ""}</Text>
+                        <Text style={styles.itemTextContent}>{item.customer ? item.customer : ""}</Text>
                     </View>
+
                     <View style={{ justifyContent: "center", }}>
                         {isCheckbox && <CheckBox
                             onValueChange={newValue => { onSelect(newValue); }}
@@ -44,26 +45,25 @@ const AllComplainListItem = ({ item, onSelect, isCheckbox, functionGetWork }: It
 
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Customer Name:</Text>
+                        <Text style={styles.itemTextHeading}>List Name:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.name ? item.name : ""}</Text>
-                    </View>
-                    <View style={{ justifyContent: "center" }} />
-                </View>
-
-                <View style={styles.outerView}>
-                    <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Address:</Text>
-                    </View>
-                    <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.houseno ? item.houseno : null}, {item.city ? item.city : ""}</Text>
+                        <Text style={styles.itemTextContent}>{item.listname ? item.listname : ""}</Text>
                     </View>
                 </View>
 
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Description:</Text>
+                        <Text style={styles.itemTextHeading}>Complain Type:</Text>
+                    </View>
+                    <View style={styles.innerView}>
+                        <Text style={styles.itemTextContent}>{item.typeofcomplain ? item.typeofcomplain : ""}</Text>
+                    </View>
+                </View>
+
+                <View style={styles.outerView}>
+                    <View style={styles.innerHeadingView}>
+                        <Text style={styles.itemTextHeading}>Detail:</Text>
                     </View>
                     <View style={styles.innerView}>
                         <Text style={styles.itemTextContent}>{item.description ? item.description : ""}</Text>
@@ -72,19 +72,21 @@ const AllComplainListItem = ({ item, onSelect, isCheckbox, functionGetWork }: It
 
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Address:</Text>
+                        <Text style={styles.itemTextHeading}>Date:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.customeraddress ? item.customeraddress : ""}</Text>
+                        <Text style={styles.itemTextContent}>{item.date ? moment(item.date).format("DD-MMM-YYYY") : ""}</Text>
                     </View>
                 </View>
 
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Assign DateTime:</Text>
+                        <Text style={styles.itemTextHeading}>Address:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.created_at ? moment(item.created_at).format("DD-MMM-YYYY HH:mm:ss") : ""}</Text>
+                        <Text style={styles.itemTextContent}>
+                            {item.street1 ? item.street1 : ""}, {item.street2 ? item.street2 : ""}, {item.street3 ? item.street3 : ""}, {item.city ? item.city : ""}
+                        </Text>
                     </View>
                 </View>
 

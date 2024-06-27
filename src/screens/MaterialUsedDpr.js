@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_BASE } from '../setupProxy';
 import moment from 'moment';
 import NoDataFound from '../common/NoDataFound';
+import { Icon } from 'react-native-elements';
 
 const MaterialUsedDpr = ({ navigation, route }) => {
 
@@ -159,7 +160,7 @@ const MaterialUsedDpr = ({ navigation, route }) => {
                 " locations_id: " + locationId +
                 " quantity: " + materialQuantity +
                 " remarks: " + materialRemarks +
-                " consumedate id: " + moment().format("YYYY-MM-DD HH:mm") +
+                " consumed: " + moment().format("YYYY-MM-DD HH:mm") +
                 " worktype: " + "dprs"
             )
 
@@ -212,6 +213,9 @@ const MaterialUsedDpr = ({ navigation, route }) => {
         setMaterialRemarks("");
     }
 
+    const handleItemDelete = (id) => {
+        console.log("Delete Item: " + id);
+    }
 
     return (
         <KeyboardAvoidingView style={styles.container}>
@@ -303,6 +307,7 @@ const MaterialUsedDpr = ({ navigation, route }) => {
                             <Text style={[{ fontWeight: "bold" }, styles.itemListContent1]} >Quantity</Text>
                             <Text style={[{ fontWeight: "bold" }, styles.itemListContent2]} >Remarks</Text>
                             <Text style={[{ fontWeight: "bold" }, styles.itemListContent15]} >Date</Text>
+                            <Text></Text>
                         </View>
 
                         <View>
@@ -320,6 +325,9 @@ const MaterialUsedDpr = ({ navigation, route }) => {
                                                 <Text style={styles.itemListContent1}>{item.quantity}</Text>
                                                 <Text style={styles.itemListContent2}>{item.remarks}</Text>
                                                 <Text style={styles.itemListContent15}>{moment(item.consumedate).format("DD-MMM-YYYY")}</Text>
+                                                <TouchableOpacity onPress={() => {handleItemDelete(item.id) }} >
+                                                    <Text><Icon name="close" type="material-icon" size={20} color={Colors.red} /></Text>
+                                                </TouchableOpacity>
                                             </View>
                                         );
                                     }}

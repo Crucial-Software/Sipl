@@ -11,7 +11,7 @@ import moment from 'moment';
 import NoDataFound from '../common/NoDataFound';
 import { Icon } from 'react-native-elements';
 
-const MaterialUsed = ({ navigation, route }) => {
+const ComplainMaterialUsed = ({ navigation, route }) => {
 
     const { workId } = route.params;
 
@@ -37,6 +37,7 @@ const MaterialUsed = ({ navigation, route }) => {
     useEffect(() => {
 
         getData();
+        console.log("workid:" + workId);
 
     }, []);
 
@@ -61,14 +62,14 @@ const MaterialUsed = ({ navigation, route }) => {
 
     };
 
-    const getMaterialUsedList = async (staffId) => {
-
+    const getMaterialUsedList = async(staffId) => {
+        
         setLoading(true);
 
         let toInput = {
-            staffs_id: staffId,
             works_id: workId,
-            worktype: "tracker"
+            staffs_id: staffId,
+            worktype: "complain"
         };
 
         await fetch(`${API_BASE}/app/products/consumptionhistorybywork`, {
@@ -89,7 +90,7 @@ const MaterialUsed = ({ navigation, route }) => {
             })
             .catch((error) => {
                 setLoading(false);
-                console.error('TRACKER MATERIAL USED There was an error!', error);
+                console.error('COMPLAIN MATERIAL USED There was an error!', error);
                 Snackbar.show({ text: 'Error Occured. Please Try again. ' + error, duration: Snackbar.LENGTH_SHORT })
 
             })
@@ -121,7 +122,7 @@ const MaterialUsed = ({ navigation, route }) => {
             })
             .catch((error) => {
                 setLoading(false);
-                console.error('TRACKER MATERIAL USED There was an error!', error);
+                console.error('DPR MATERIAL USED There was an error!', error);
                 Snackbar.show({ text: 'Error Occured. Please Try again. ' + error, duration: Snackbar.LENGTH_SHORT })
 
             })
@@ -144,7 +145,7 @@ const MaterialUsed = ({ navigation, route }) => {
             Snackbar.show({ text: 'Enter Material Quantity', duration: Snackbar.LENGTH_SHORT });
         } else if (isNaN(materialQuantity)) {
             Snackbar.show({ text: 'Enter Valid Quantity', duration: Snackbar.LENGTH_SHORT });
-        } else if (materialQuantity == "" || materialQuantity == null || materialQuantity === " ") {
+        } else if (materialQuantity == "" || materialQuantity == null || materialQuantity === " " ) {
             Snackbar.show({ text: 'Enter quantity', duration: Snackbar.LENGTH_SHORT })
         } else if (format.test(materialQuantity) || materialQuantity.includes(" ") || materialQuantity == "0" || materialQuantity == "0.0" || materialQuantity == "0.00") {
             Snackbar.show({ text: 'Enter a valid quantity', duration: Snackbar.LENGTH_SHORT })
@@ -161,7 +162,7 @@ const MaterialUsed = ({ navigation, route }) => {
                 " quantity: " + materialQuantity +
                 " remarks: " + materialRemarks +
                 " consumedate id: " + moment().format("YYYY-MM-DD HH:mm") +
-                " worktype: " + "tracker"
+                " worktype: " + "complain"
             )
 
             let toInput = {
@@ -172,7 +173,7 @@ const MaterialUsed = ({ navigation, route }) => {
                 quantity: materialQuantity,
                 remarks: materialRemarks,
                 consumedate: moment().format("YYYY-MM-DD HH:mm"),
-                worktype: "tracker"
+                worktype: "complain"
             };
 
             await fetch(`${API_BASE}/app/products/consumestock`, {
@@ -306,7 +307,7 @@ const MaterialUsed = ({ navigation, route }) => {
                             <Text style={[{ fontWeight: "bold" }, styles.itemListContent2]} >Name</Text>
                             <Text style={[{ fontWeight: "bold" }, styles.itemListContent1]} >Quantity</Text>
                             <Text style={[{ fontWeight: "bold" }, styles.itemListContent2]} >Remarks</Text>
-                            <Text style={[{ fontWeight: "bold" }, styles.itemListContent15]}>Date</Text>
+                            <Text style={[{ fontWeight: "bold" }, styles.itemListContent15]} >Date</Text>
                             <Text></Text>
                         </View>
 
@@ -336,6 +337,7 @@ const MaterialUsed = ({ navigation, route }) => {
                             </ScrollView>
                         </View>
 
+
                     </View>
                 }
 
@@ -345,12 +347,12 @@ const MaterialUsed = ({ navigation, route }) => {
     )
 }
 
-MaterialUsed.propTypes = {
+ComplainMaterialUsed.propTypes = {
     navigation: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
 };
 
-export default MaterialUsed
+export default ComplainMaterialUsed
 
 const styles = StyleSheet.create({
     container: {
@@ -439,19 +441,19 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between"
     },
-    itemListContent1: {
-        flex: 1,
-        color: Colors.black,
+    itemListContent1:{
+        flex: 1, 
+        color: Colors.black, 
         fontSize: FontSize.smallMedium,
     },
-    itemListContent15: {
-        flex: 1.5,
-        color: Colors.black,
+    itemListContent15:{
+        flex: 1.5, 
+        color: Colors.black, 
         fontSize: FontSize.smallMedium,
     },
-    itemListContent2: {
-        flex: 2,
-        color: Colors.black,
+    itemListContent2:{
+        flex: 2, 
+        color: Colors.black, 
         fontSize: FontSize.smallMedium,
     }
 

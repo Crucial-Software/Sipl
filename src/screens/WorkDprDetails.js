@@ -72,7 +72,6 @@ const WorkDprDetails = ({ navigation, route }) => {
             .then((response) => response.json())
             .then((response) => {
 
-
                 if (response) {
                     setRemarksList(response);
                 } else {
@@ -101,7 +100,7 @@ const WorkDprDetails = ({ navigation, route }) => {
             " status: " + selectedStatus
         );
 
-        if (remarks === "") {
+        if (remarks === "" || remarks === null) {
             Snackbar.show({ text: 'Please Enter Remarks', duration: Snackbar.LENGTH_SHORT });
         } else {
             setLoading(true);

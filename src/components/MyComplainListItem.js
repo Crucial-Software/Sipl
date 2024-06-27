@@ -44,6 +44,7 @@ const MyComplainListItem = ({ item, index, navigation, staffId, functionGetWork 
             })
     }
 
+
     const handleCameraSelection = async () => {
 
         let options = {
@@ -103,7 +104,7 @@ const MyComplainListItem = ({ item, index, navigation, staffId, functionGetWork 
             name: cameraPhoto.fileName,
             size: cameraPhoto.fileSize,
         });
-        
+
         formData.append('staffs_id', staffId);
         formData.append('works_id', item.works_id);
         formData.append('remarks', remarks)
@@ -143,12 +144,48 @@ const MyComplainListItem = ({ item, index, navigation, staffId, functionGetWork 
             <TouchableOpacity onPress={() => { navigation.navigate("Complain Details", { workDetailsItem: item, staffId: staffId, functionGetWork: (staffId) => functionGetWork(staffId) }) }}
                 style={item.staffworkstatus == "Completed" ? styles.itemContainer1 : styles.itemContainer}>
 
-                <View style={styles.outerView}>
+                {/* <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Works Id:</Text>
+                        <Text style={styles.itemTextHeading}>Complain Id:</Text>
                     </View>
                     <View style={styles.innerView}>
                         <Text style={styles.itemTextContent}>{item.works_id ? item.works_id : ""}</Text>
+                    </View>
+                </View> */}
+
+                <View style={styles.outerView}>
+                    <View style={styles.innerHeadingView}>
+                        <Text style={styles.itemTextHeading}>Customer No:</Text>
+                    </View>
+                    <View style={styles.innerView}>
+                        <Text style={styles.itemTextContent}>{item.customer ? item.customer : ""}</Text>
+                    </View>
+                </View>
+
+                <View style={styles.outerView}>
+                    <View style={styles.innerHeadingView}>
+                        <Text style={styles.itemTextHeading}>List Name:</Text>
+                    </View>
+                    <View style={styles.innerView}>
+                        <Text style={styles.itemTextContent}>{item.listname ? item.listname : ""}</Text>
+                    </View>
+                </View>
+
+                <View style={styles.outerView}>
+                    <View style={styles.innerHeadingView}>
+                        <Text style={styles.itemTextHeading}>Complain Type:</Text>
+                    </View>
+                    <View style={styles.innerView}>
+                        <Text style={styles.itemTextContent}>{item.typeofcomplain ? item.typeofcomplain : ""}</Text>
+                    </View>
+                </View>
+
+                <View style={styles.outerView}>
+                    <View style={styles.innerHeadingView}>
+                        <Text style={styles.itemTextHeading}>Detail:</Text>
+                    </View>
+                    <View style={styles.innerView}>
+                        <Text style={styles.itemTextContent}>{item.description ? item.description : ""}</Text>
                     </View>
                 </View>
 
@@ -163,34 +200,18 @@ const MyComplainListItem = ({ item, index, navigation, staffId, functionGetWork 
 
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Customer Name:</Text>
-                    </View>
-                    <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.name ? item.name : ""}</Text>
-                    </View>
-                </View>
-
-                <View style={styles.outerView}>
-                    <View style={styles.innerHeadingView}>
                         <Text style={styles.itemTextHeading}>Address:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.houseno ? item.houseno : null}, {item.city ? item.city : ""}</Text>
+                        <Text style={styles.itemTextContent}>
+                            {item.street1 ? item.street1 : ""}, {item.street2 ? item.street2 : ""}, {item.street3 ? item.street3 : ""}, {item.city ? item.city : ""}
+                        </Text>
                     </View>
                 </View>
 
-                <View style={styles.outerView}>
+                {/*<View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Description:</Text>
-                    </View>
-                    <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.description ? item.description : ""}</Text>
-                    </View>
-                </View>
-
-                <View style={styles.outerView}>
-                    <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Address:</Text>
+                        <Text style={styles.itemTextHeading}>Notification:</Text>
                     </View>
                     <View style={styles.innerView}>
                         <Text style={styles.itemTextContent}>{item.customeraddress ? item.customeraddress : ""}</Text>
@@ -199,12 +220,57 @@ const MyComplainListItem = ({ item, index, navigation, staffId, functionGetWork 
 
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Assign DateTime:</Text>
+                        <Text style={styles.itemTextHeading}>Notification Type:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.assigneddatetime ? moment(item.assigneddatetime).format("DD-MMM-YYYY HH:mm:ss") : ""}</Text>
+                        <Text style={styles.itemTextContent}>{item.customeraddress ? item.customeraddress : ""}</Text>
                     </View>
                 </View>
+
+                <View style={styles.outerView}>
+                    <View style={styles.innerHeadingView}>
+                        <Text style={styles.itemTextHeading}>Notification Date:</Text>
+                    </View>
+                    <View style={styles.innerView}>
+                        <Text style={styles.itemTextContent}>{item.date ? moment(item.date).format("DD-MMM-YYYY") : ""}</Text>
+                    </View>
+                </View>
+
+                <View style={styles.outerView}>
+                    <View style={styles.innerHeadingView}>
+                        <Text style={styles.itemTextHeading}>Required Start:</Text>
+                    </View>
+                    <View style={styles.innerView}>
+                        <Text style={styles.itemTextContent}>{item.date ? moment(item.date).format("DD-MMM-YYYY") : ""}</Text>
+                    </View>
+                </View>
+
+                <View style={styles.outerView}>
+                    <View style={styles.innerHeadingView}>
+                        <Text style={styles.itemTextHeading}>Required End:</Text>
+                    </View>
+                    <View style={styles.innerView}>
+                        <Text style={styles.itemTextContent}>{item.date ? moment(item.date).format("DD-MMM-YYYY") : ""}</Text>
+                    </View>
+                </View>
+
+                <View style={styles.outerView}>
+                    <View style={styles.innerHeadingView}>
+                        <Text style={styles.itemTextHeading}>Code Group Text:</Text>
+                    </View>
+                    <View style={styles.innerView}>
+                        <Text style={styles.itemTextContent}>{item.customeraddress ? item.customeraddress : ""}</Text>
+                    </View>
+                </View>
+
+                <View style={styles.outerView}>
+                    <View style={styles.innerHeadingView}>
+                        <Text style={styles.itemTextHeading}>Coding Code Text:</Text>
+                    </View>
+                    <View style={styles.innerView}>
+                        <Text style={styles.itemTextContent}>{item.customeraddress ? item.customeraddress : ""}</Text>
+                    </View>
+                </View>*/}
 
                 <View style={{ flexDirection: "row" }}>
 
@@ -222,7 +288,7 @@ const MyComplainListItem = ({ item, index, navigation, staffId, functionGetWork 
                         </View>
                     </TouchableHighlight>
 
-                </View>
+                </View> 
 
                 {showDetails ?
                     <FlatList

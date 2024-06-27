@@ -46,7 +46,7 @@ const MyAmc = ({ navigation }) => {
             staffs_id: staffId,
         };
 
-        await fetch(`${API_BASE}/app/work/listdprsstaff`, {
+        await fetch(`${API_BASE}/app/work/listamcstaff`, {
             method: "POST",
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify(toInput)
@@ -131,7 +131,7 @@ const MyAmc = ({ navigation }) => {
 
     const searchByDate = () => {
 
-        console.log("MyComplain FromDate: " + moment(fromDate).format("DD-MMM-YYYY") + " ToDate: " + moment(toDate).format("DD-MMM-YYYY"));
+        console.log("MyAmc FromDate: " + moment(fromDate).format("DD-MMM-YYYY") + " ToDate: " + moment(toDate).format("DD-MMM-YYYY"));
 
         getWork(staffsId);
 

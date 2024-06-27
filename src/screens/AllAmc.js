@@ -51,7 +51,7 @@ const AllAmc = () => {
     };
     console.log(JSON.stringify(toInput));
 
-    await fetch(`${API_BASE}/app/work/listdprs`, {
+    await fetch(`${API_BASE}/app/work/listamc`, {
       method: "POST",
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify(toInput)
@@ -102,6 +102,7 @@ const AllAmc = () => {
   };
 
   const getStaffsByLocationList = async (locId) => {
+    console.log("loci in select staffd: " + locId);
 
     let toInput = {
       locations_id: locId,
@@ -197,7 +198,7 @@ const AllAmc = () => {
         staffids: selectedStaff.toString(),
         bystaffs_id: byStaffId,
         workids: selectedWorkIds,
-        worktype: "dprs",
+        worktype: "amc",
         remarks: remarks
       };
 

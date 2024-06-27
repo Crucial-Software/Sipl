@@ -24,14 +24,20 @@ const AllAmcListItem = ({ item, onSelect, isCheckbox, functionGetWork }: ItemTyp
     return (
         <View>
 
-            <TouchableOpacity style={item.works.length == 0 ? styles.itemContainer : item.status == 'Completed'? styles.itemContainer2 : styles.itemContainer1} >
+            <TouchableOpacity style={item.works.length == 0 ? styles.itemContainer : item.status == 'Completed' ? styles.itemContainer2 : styles.itemContainer1} >
 
                 <View style={styles.outerView}>
-                    <View style={styles.innerHeadingView}>
+                    {/* <View style={styles.innerHeadingView}>
                         <Text style={styles.itemTextHeading}>Date:</Text>
                     </View>
                     <View style={styles.innerView}>
                         <Text style={styles.itemTextContent}>{item.date ? moment(item.date).format("DD-MMM-YYYY") : ""}</Text>
+                    </View> */}
+                    <View style={styles.innerHeadingView}>
+                        <Text style={styles.itemTextHeading}>Date:</Text>
+                    </View>
+                    <View style={styles.innerView}>
+                        <Text style={styles.itemTextContent}>{item.created_at ? moment(item.created_at).format("DD-MMM-YYYY") : ""}</Text>
                     </View>
                     <View style={{ justifyContent: "center", }}>
                         {isCheckbox && <CheckBox
@@ -47,7 +53,7 @@ const AllAmcListItem = ({ item, onSelect, isCheckbox, functionGetWork }: ItemTyp
                         <Text style={styles.itemTextHeading}>Customer Name:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.name ? item.name : ""}</Text>
+                        <Text style={styles.itemTextContent}>{item.customer_name ? item.customer_name : ""}</Text>
                     </View>
                     <View style={{ justifyContent: "center" }} />
                 </View>
@@ -57,36 +63,13 @@ const AllAmcListItem = ({ item, onSelect, isCheckbox, functionGetWork }: ItemTyp
                         <Text style={styles.itemTextHeading}>Address:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.houseno ? item.houseno : null}, {item.city ? item.city : ""}</Text>
+                        <Text style={styles.itemTextContent}>
+                            {item.houseno ? item.houseno : null}, {item.street1 ? item.street1 : ""}, {item.street2 ? item.street2 : ""}, {item.street3 ? item.street3 : ""}, {item.city ? item.city : ""}
+                        </Text>
                     </View>
                 </View>
 
-                <View style={styles.outerView}>
-                    <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Description:</Text>
-                    </View>
-                    <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.description ? item.description : ""}</Text>
-                    </View>
-                </View>
 
-                <View style={styles.outerView}>
-                    <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Address:</Text>
-                    </View>
-                    <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.customeraddress ? item.customeraddress : ""}</Text>
-                    </View>
-                </View>
-
-                <View style={styles.outerView}>
-                    <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Assign DateTime:</Text>
-                    </View>
-                    <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.created_at ? moment(item.created_at).format("DD-MMM-YYYY HH:mm:ss") : ""}</Text>
-                    </View>
-                </View>
 
                 {item.works.length != 0 ?
                     <View>

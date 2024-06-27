@@ -51,7 +51,7 @@ const AllComplain = () => {
     };
     console.log(JSON.stringify(toInput));
 
-    await fetch(`${API_BASE}/app/work/listdprs`, {
+    await fetch(`${API_BASE}/app/work/listcomplain`, {
       method: "POST",
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify(toInput)
@@ -188,7 +188,7 @@ const AllComplain = () => {
         " staffids: " + selectedStaff.toString() +
         " bystaffs_id: " + byStaffId +
         " workids: " + selectedWorkIds +
-        " worktype: " + "dprs" +
+        " worktype: " + "complain" +
         " remarks: " + remarks
       )
 
@@ -197,7 +197,7 @@ const AllComplain = () => {
         staffids: selectedStaff.toString(),
         bystaffs_id: byStaffId,
         workids: selectedWorkIds,
-        worktype: "dprs",
+        worktype: "complain",
         remarks: remarks
       };
 

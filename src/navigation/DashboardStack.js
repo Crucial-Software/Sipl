@@ -35,6 +35,7 @@ import MyAmc from '../screens/MyAmc';
 import AllAmc from '../screens/AllAmc';
 import AmcDetails from '../screens/AmcDetails';
 import ComplainDetails from '../screens/ComplainDetails';
+import ComplainMaterialUsed from '../screens/ComplainMaterialUsed';
 
 const Stack = createStackNavigator();
 
@@ -428,6 +429,20 @@ const DashboardStack = ({ navigation }) => {
                 component={ComplainDetails}
                 options={{
                     title: "Complain Details",
+                    headerShown: true,
+                    headerStyle: { backgroundColor: Colors.primary },
+                    headerTintColor: Colors.white,
+                    headerTitleAlign: "center",
+                    headerTitleStyle: { fontFamily: Fonts.semiBold, fontSize: FontSize.medium },
+
+                }}
+            />
+
+            <Stack.Screen
+                name="Complain Material Used"
+                component={ComplainMaterialUsed}
+                options={{
+                    title: "Complain Material Used",
                     headerShown: true,
                     headerStyle: { backgroundColor: Colors.primary },
                     headerTintColor: Colors.white,

@@ -46,7 +46,7 @@ const MyComplain = ({ navigation }) => {
             staffs_id: staffId,
         };
 
-        await fetch(`${API_BASE}/app/work/listdprsstaff`, {
+        await fetch(`${API_BASE}/app/work/listcomplainstaff`, {
             method: "POST",
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify(toInput)
@@ -73,9 +73,11 @@ const MyComplain = ({ navigation }) => {
     }
 
     const searchFilterFunction = (text) => {
+        
         if (text) {
             const newData = workList.filter(function (item) {
-                const itemData = item.name ? item.name + " " + item.houseno + " " + item.city + " " + item.description : ''.toUpperCase();
+                const itemData = item.description ? item.description.toUpperCase() : ''.toUpperCase();
+                
                 const textData = text.toUpperCase();
                 return itemData.indexOf(textData) > -1;
             });

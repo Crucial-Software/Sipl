@@ -116,8 +116,9 @@ const MyAmcListItem = ({ item, index, navigation, staffId, functionGetWork }) =>
                 'content-type': 'multipart/form-data',
             },
         };
+        
 
-        fetch(`${API_BASE}/app/work/workphoto`, requestOptions)
+        await fetch(`${API_BASE}/app/work/workphoto`, requestOptions)
             .then(res => {
                 console.log("resp: " + JSON.stringify(res));
                 if (res.ok) {
@@ -152,21 +153,21 @@ const MyAmcListItem = ({ item, index, navigation, staffId, functionGetWork }) =>
                     </View>
                 </View>
 
-                <View style={styles.outerView}>
+                {/* <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
                         <Text style={styles.itemTextHeading}>Date:</Text>
                     </View>
                     <View style={styles.innerView}>
                         <Text style={styles.itemTextContent}>{item.date ? moment(item.date).format("DD-MMM-YYYY") : ""}</Text>
                     </View>
-                </View>
+                </View> */}
 
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
                         <Text style={styles.itemTextHeading}>Customer Name:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.name ? item.name : ""}</Text>
+                        <Text style={styles.itemTextContent}>{item.customer_name ? item.customer_name : ""}</Text>
                     </View>
                 </View>
 
@@ -175,25 +176,9 @@ const MyAmcListItem = ({ item, index, navigation, staffId, functionGetWork }) =>
                         <Text style={styles.itemTextHeading}>Address:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.houseno ? item.houseno : null}, {item.city ? item.city : ""}</Text>
-                    </View>
-                </View>
-
-                <View style={styles.outerView}>
-                    <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Description:</Text>
-                    </View>
-                    <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.description ? item.description : ""}</Text>
-                    </View>
-                </View>
-
-                <View style={styles.outerView}>
-                    <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Address:</Text>
-                    </View>
-                    <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.customeraddress ? item.customeraddress : ""}</Text>
+                        <Text style={styles.itemTextContent}>
+                            {item.houseno ? item.houseno : null}, {item.street1 ? item.street1 : ""}, {item.street2 ? item.street2 : ""}, {item.street3 ? item.street3 : ""}, {item.city ? item.city : ""}
+                        </Text>
                     </View>
                 </View>
 
@@ -202,11 +187,11 @@ const MyAmcListItem = ({ item, index, navigation, staffId, functionGetWork }) =>
                         <Text style={styles.itemTextHeading}>Assign DateTime:</Text>
                     </View>
                     <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.assigneddatetime ? moment(item.assigneddatetime).format("DD-MMM-YYYY HH:mm:ss") : ""}</Text>
+                        <Text style={styles.itemTextContent}>{item.assigneddatetime ? moment(item.assigneddatetime).format("DD-MMM-YYYY") : ""}</Text>
                     </View>
                 </View>
 
-                <View style={{ flexDirection: "row" }}>
+                {/* <View style={{ flexDirection: "row" }}>
 
                     <TouchableHighlight onPress={() => { handleShowDetails(); getAttachments(); }} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
                         <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -269,7 +254,7 @@ const MyAmcListItem = ({ item, index, navigation, staffId, functionGetWork }) =>
                             </TouchableOpacity>
                         </View>
                     </View>
-                    : null}
+                    : null} 
 
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
@@ -282,6 +267,7 @@ const MyAmcListItem = ({ item, index, navigation, staffId, functionGetWork }) =>
                             : null}
                     </View>
                 </View>
+                */}
 
             </TouchableOpacity>
         </View>
