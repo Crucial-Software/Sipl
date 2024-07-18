@@ -85,8 +85,8 @@ android {
         applicationId "com.csitpark.sipl"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 22
-        versionName "1.21"
+        versionCode 23
+        versionName "1.22"
         resConfigs "en", "US"
     }
     signingConfigs {

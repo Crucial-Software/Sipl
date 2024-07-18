@@ -46,13 +46,9 @@ const ComplainDetails = ({ navigation, route }) => {
             setWorkDetails(workDetailsItem);
         }
 
-
         setRemarks(workDetailsItem.remarks);
-
         setRemarks2(workDetailsItem.remarks2);
-
         setStatusValue(workDetailsItem.staffworkstatus);
-
         setSelectedStatus(workDetailsItem.staffworkstatus);
 
     }
@@ -228,7 +224,7 @@ const ComplainDetails = ({ navigation, route }) => {
                                     <Text style={styles.itemTextHeading}>Notification:</Text>
                                 </View>
                                 <View style={styles.innerView}>
-                                    <Text style={styles.itemTextContent}>{workDetails.notification ? moment(workDetails.notification).format("DD-MMM-YYYY") : ""}</Text>
+                                    <Text style={styles.itemTextContent}>{workDetails.notification ? workDetails.notification : ""}</Text>
                                 </View>
                             </View>
 

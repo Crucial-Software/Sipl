@@ -75,7 +75,7 @@ const MyAmc = ({ navigation }) => {
     const searchFilterFunction = (text) => {
         if (text) {
             const newData = workList.filter(function (item) {
-                const itemData = item.name ? item.name + " " + item.houseno + " " + item.city + " " + item.description : ''.toUpperCase();
+                const itemData = item.customer_name ? item.customer_name + " " + item.street1 + " " + item.street2 + " " + item.street3 + " " + item.city+ " " + item.description : ''.toUpperCase();
                 const textData = text.toUpperCase();
                 return itemData.indexOf(textData) > -1;
             });

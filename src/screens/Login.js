@@ -92,7 +92,16 @@ const Login = ({ navigation }) => {
             console.log("userid: " + response.data.user.id);
             console.log("username: " + response.data.user.name);
             console.log("useremail: " + response.data.user.email);
-            authlogin(response.data.token, response.data.user.id, response.data.user.name, response.data.user.email, response.data.emp, response.data.lastin, response.data.lastout);
+            console.log("useraccess: " + JSON.stringify(response.data.access));
+            authlogin(response.data.token, 
+              response.data.user.id, 
+              response.data.user.name, 
+              response.data.user.email, 
+              response.data.emp, 
+              response.data.lastin, 
+              response.data.lastout,
+              response.data.access
+            );
           } else {
             setIsLoading(false);
             Snackbar.show({ text: '' + response.message, duration: Snackbar.LENGTH_SHORT })

@@ -84,7 +84,7 @@ const MyComplainListItem = ({ item, index, navigation, staffId, functionGetWork 
             'Save Image', 'Are you sure you want to upload this image?',
             [
                 { text: 'Cancel', onPress: () => Snackbar.show({ text: 'No Image Saved', duration: Snackbar.LENGTH_SHORT }) },
-                { text: 'OK', onPress: () => uploadDocumentsToDatabase() },
+                { text: 'OK', onPress: () => {uploadDocumentsToDatabase()} },
             ], {
             cancelable: false,
         },

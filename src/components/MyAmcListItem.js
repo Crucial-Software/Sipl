@@ -1,143 +1,10 @@
-import React, { useState } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, Alert, TouchableHighlight, Image, TextInput, FlatList } from 'react-native'
+import React from 'react'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { Colors, Fonts } from '../common/ConstantStyles'
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { launchCamera } from 'react-native-image-picker';
-import Snackbar from 'react-native-snackbar';
-import { Icon } from 'react-native-elements';
-import { API_BASE } from '../setupProxy';
-import NoDataFound from '../common/NoDataFound';
 
 const MyAmcListItem = ({ item, index, navigation, staffId, functionGetWork }) => {
-
-    const [cameraPhoto, setCameraPhoto] = useState(null);
-    const [cameraPhotoUri, setCameraPhotoUri] = useState("");
-    const [remarks, setRemarks] = useState("");
-
-    const [workImageList, setWorkImageList] = useState([]);
-
-    const [showDetails, setShowDetails] = useState(false);
-
-    const handleShowDetails = () => {
-        setShowDetails(!showDetails);
-    }
-
-    const getAttachments = async () => {
-
-        let toInput = {
-            works_id: item.works_id,
-        };
-
-        await fetch(`https://shrikarniinfra.in/app/work/photolist`, {
-            method: "POST",
-            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify(toInput)
-        }).then((response) => response.json())
-            .then((response) => {
-                if (response.model) {
-                    setWorkImageList(response.model);
-                }
-            }).catch((error) => {
-                console.error('WORK DPR GET ATTACHMENTS There was an error!', error);
-                Snackbar.show({ text: 'Error Occured. Please Try again. ' + error, duration: Snackbar.LENGTH_SHORT })
-            })
-    }
-
-    const handleCameraSelection = async () => {
-
-        let options = {
-            mediaType: 'photo',
-            saveToPhotos: true,
-            includeBase64: true,
-        };
-
-        launchCamera(options, (response) => {
-            if (response.didCancel) {
-                Snackbar.show({ text: 'No Image Captured', duration: Snackbar.LENGTH_SHORT })
-                return;
-            } else if (response.errorCode == 'camera_unavailable') {
-                Snackbar.show({ text: 'No Camera Available', duration: Snackbar.LENGTH_SHORT })
-                return;
-            } else if (response.errorCode == 'permission') {
-                Snackbar.show({ text: 'Permission Error', duration: Snackbar.LENGTH_SHORT })
-                return;
-            } else if (response.errorCode == 'others') {
-                Snackbar.show({ text: 'Error occured. Please try again.', duration: Snackbar.LENGTH_SHORT })
-                return;
-            }
-            console.log('uri Camera-> ', response.assets[0].uri);
-            console.log('width Camera-> ', response.assets[0].width);
-            console.log('height Camera-> ', response.assets[0].height);
-            console.log('fileSize Camera-> ', response.assets[0].fileSize);
-            console.log('type Camera-> ', response.assets[0].type);
-            console.log('fileName Camera-> ', response.assets[0].fileName);
-            setCameraPhoto(response.assets[0]);
-            setCameraPhotoUri(response.assets[0].uri);
-        });
-    };
-
-    const saveImage = () => {
-
-        Alert.alert(
-            'Save Image', 'Are you sure you want to upload this image?',
-            [
-                { text: 'Cancel', onPress: () => Snackbar.show({ text: 'No Image Saved', duration: Snackbar.LENGTH_SHORT }) },
-                { text: 'OK', onPress: () => uploadDocumentsToDatabase() },
-            ], {
-            cancelable: false,
-        },
-        );
-
-    }
-
-    const uploadDocumentsToDatabase = async () => {
-
-        console.log("check: " + staffId + " " + item.works_id + " " + remarks);
-
-        let formData = new FormData();
-
-        formData.append('image', {
-            uri: cameraPhoto.uri,
-            type: cameraPhoto.type,
-            name: cameraPhoto.fileName,
-            size: cameraPhoto.fileSize,
-        });
-        
-        formData.append('staffs_id', staffId);
-        formData.append('works_id', item.works_id);
-        formData.append('remarks', remarks)
-
-        const requestOptions = {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Accept': 'application/json',
-                'content-type': 'multipart/form-data',
-            },
-        };
-        
-
-        await fetch(`${API_BASE}/app/work/workphoto`, requestOptions)
-            .then(res => {
-                console.log("resp: " + JSON.stringify(res));
-                if (res.ok) {
-                    setCameraPhoto(null);
-                    setCameraPhotoUri("");
-                    getAttachments();
-                } else {
-                    setCameraPhoto(null);
-                    setCameraPhotoUri("");
-                }
-            })
-            .catch(error => {
-                Snackbar.show({ text: 'Error occured while uploading. Please try again. ', duration: Snackbar.LENGTH_SHORT })
-                console.log("error : " + error);
-                setCameraPhoto(null);
-                setCameraPhotoUri("");
-            });
-
-    }
 
     return (
         <View>
@@ -152,15 +19,6 @@ const MyAmcListItem = ({ item, index, navigation, staffId, functionGetWork }) =>
                         <Text style={styles.itemTextContent}>{item.works_id ? item.works_id : ""}</Text>
                     </View>
                 </View>
-
-                {/* <View style={styles.outerView}>
-                    <View style={styles.innerHeadingView}>
-                        <Text style={styles.itemTextHeading}>Date:</Text>
-                    </View>
-                    <View style={styles.innerView}>
-                        <Text style={styles.itemTextContent}>{item.date ? moment(item.date).format("DD-MMM-YYYY") : ""}</Text>
-                    </View>
-                </View> */}
 
                 <View style={styles.outerView}>
                     <View style={styles.innerHeadingView}>
@@ -190,84 +48,6 @@ const MyAmcListItem = ({ item, index, navigation, staffId, functionGetWork }) =>
                         <Text style={styles.itemTextContent}>{item.assigneddatetime ? moment(item.assigneddatetime).format("DD-MMM-YYYY") : ""}</Text>
                     </View>
                 </View>
-
-                {/* <View style={{ flexDirection: "row" }}>
-
-                    <TouchableHighlight onPress={() => { handleShowDetails(); getAttachments(); }} style={styles.touchableOpacityImages} underlayColor={Colors.primaryLight2}>
-                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <Icon name="image" type="font-awesome" size={12} color={Colors.primary} />
-                            <Text style={styles.buttonTextPhoto}>View Images</Text>
-                        </View>
-                    </TouchableHighlight>
-
-                    <TouchableHighlight onPress={() => { handleCameraSelection() }} style={styles.touchableOpacityPhoto} underlayColor={Colors.primaryLight2}>
-                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <Icon name="camera" type="font-awesome" size={12} color={Colors.primary} />
-                            <Text style={styles.buttonTextPhoto}>Take Photo</Text>
-                        </View>
-                    </TouchableHighlight>
-
-                </View>
-
-                {showDetails ?
-                    <FlatList
-                        data={workImageList}
-                        ListEmptyComponent={<NoDataFound />}
-                        renderItem={({ item, index }) => (
-                            <View style={styles.imageContent}>
-                                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                    <View>
-                                        <TouchableHighlight onPress={() => { navigation.navigate("View Image File", { file: `https://shrikarniinfra.in/uploads/works/${item.image}` }) }}>
-                                            <Image style={styles.imageStyle} source={{ uri: `https://shrikarniinfra.in/uploads/works/${item.image}` }} />
-                                        </TouchableHighlight>
-                                    </View>
-
-                                    <View style={styles.contentViewStyle}>
-                                        <Text style={styles.textHeading}>Remarks</Text>
-                                        <Text style={styles.textContent}>{item.remarks}</Text>
-                                    </View>
-                                </View>
-                            </View>
-                        )}
-                    />
-                    : null
-                }
-
-                {cameraPhotoUri ?
-                    <View style={styles.imageContent}>
-                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                            <View>
-                                <TouchableHighlight onPress={() => { navigation.navigate("View Image File", { file: cameraPhotoUri }) }}>
-                                    <Image style={styles.imageStyle} source={{ uri: cameraPhotoUri }} />
-                                </TouchableHighlight>
-                            </View>
-
-                            <View style={styles.contentViewStyle}>
-                                <Text style={styles.textHeading}>Remarks</Text>
-                                <TextInput style={styles.textContent} value={remarks} onChangeText={(remarks) => setRemarks(remarks)} />
-                                <View style={styles.viewStyle} />
-                            </View>
-
-
-                            <TouchableOpacity onPress={() => { setCameraPhoto(null); setCameraPhotoUri(""); }}>
-                                <Icon name="cross" type="entypo" size={25} color="#F87171" />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    : null} 
-
-                <View style={styles.outerView}>
-                    <View style={styles.innerHeadingView}>
-                    </View>
-                    <View style={styles.innerView} >
-                        {cameraPhotoUri ?
-                            <TouchableHighlight onPress={() => { saveImage() }} style={styles.touchableOpacity}>
-                                <Text style={styles.buttonText}>Save</Text>
-                            </TouchableHighlight>
-                            : null}
-                    </View>
-                </View>
-                */}
 
             </TouchableOpacity>
         </View>

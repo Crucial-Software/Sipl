@@ -22,14 +22,13 @@ const Work = ({ navigation }) => {
     const [fromDate, setFromDate] = useState(new Date());
     const [toDate, setToDate] = useState(new Date());
 
-
     useEffect(() => {
 
-        getStaffId();
+        getData();
 
     }, []);
 
-    const getStaffId = async () => {
+    const getData = async () => {
 
         const sId = await AsyncStorage.getItem('staffId');
         if (sId) {

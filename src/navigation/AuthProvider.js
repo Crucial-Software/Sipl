@@ -15,11 +15,13 @@ export const AuthProvider = ({ children }) => {
     const [userLastIn, setUserLastIn] = useState("");
     const [userLastOut, setUserLastOut] = useState("");
     const [userEmpDetails, setUserEmpDetails] = useState([]);
+    const [userAccess, setUserAccess] = useState([]);
     const [staffId, setStaffId] = useState(null);
 
-    const authlogin = (token, id, name, email, emp, lastin, lastout) => {
+    const authlogin = (token, id, name, email, emp, lastin, lastout, access) => {
         console.log("AUTH PROVIDER SCREEN - token: " + token + " id: " + id + " name: " + name + " email: " + email + " " + JSON.stringify(emp) + " lastin: " + lastin + " lastout: " + lastout);
         console.log("AuthProvider CHECK SID: " + emp[0].id);
+        console.log("AuthProvider CHECK access: " + JSON.stringify(access));
         const empDetails = JSON.stringify(emp);
         if (id) {
             setUserToken(token);
@@ -30,6 +32,7 @@ export const AuthProvider = ({ children }) => {
             setUserLastOut(lastout);
             setUserEmpDetails(emp);
             setStaffId(emp[0].id);
+            setUserAccess(access);
             AsyncStorage.setItem('userToken', JSON.stringify(token));
             AsyncStorage.setItem('userId', JSON.stringify(id));
             AsyncStorage.setItem('userName', JSON.stringify(name));
@@ -41,6 +44,9 @@ export const AuthProvider = ({ children }) => {
                 console.warn('Error storing todos in Async');
                 console.warn(err);
             });
+            AsyncStorage.setItem('userAccess', JSON.stringify(access)).catch(err => {
+                console.log("Error in storing access");
+            })
         }
     }
 
@@ -63,6 +69,7 @@ export const AuthProvider = ({ children }) => {
                             setUserLastOut("");
                             setUserEmpDetails([]);
                             setStaffId(null);
+                            setUserAccess([]);
                             AsyncStorage.removeItem('userToken');
                             AsyncStorage.removeItem('userId');
                             AsyncStorage.removeItem('userName');
@@ -71,6 +78,7 @@ export const AuthProvider = ({ children }) => {
                             AsyncStorage.removeItem('userLastOut');
                             AsyncStorage.removeItem('userEmpDetails');
                             AsyncStorage.removeItem('staffId')
+                            AsyncStorage.removeItem('userAccess')
                             setIsLoading(false);
                             BackHandler.exitApp();
                         }
@@ -97,6 +105,7 @@ export const AuthProvider = ({ children }) => {
             let uLastIn = await AsyncStorage.getItem('userLastIn');
             let uLastOut = await AsyncStorage.getItem('userLastOut');
             let uStaffId = await AsyncStorage.getItem('staffId');
+            let uAccess = await AsyncStorage.getItem('userAccess');
             if (uId) {
                 setUserToken(uToken);
                 setUserId(uId);
@@ -105,6 +114,7 @@ export const AuthProvider = ({ children }) => {
                 setUserLastIn(uLastIn);
                 setUserLastOut(uLastOut);
                 setStaffId(uStaffId);
+                setUserAccess(uAccess);
             }
 
             AsyncStorage.getItem('userEmpDetails')
@@ -135,7 +145,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
 
-        <AuthContext.Provider value={{ authlogin, logout, isLoading, userToken, userId, userName, userEmail, userEmpDetails, userLastIn, userLastOut }}>
+        <AuthContext.Provider value={{ authlogin, logout, isLoading, userToken, userId, userName, userEmail, userEmpDetails, userLastIn, userLastOut, userAccess }}>
             {children}
         </AuthContext.Provider>
 

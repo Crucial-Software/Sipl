@@ -1,10 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { Colors, FontSize } from '../common/ConstantStyles';
 import { ScrollView } from "react-native-gesture-handler";
 import PropTypes from 'prop-types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Inventory = ({ navigation }) => {
+
+  const [userAccess, setUserAccess] = useState([]);
+
+  useEffect(() => {
+
+    getData();
+
+  }, []);
+
+  const getData = async () => {
+
+    await AsyncStorage.getItem('userAccess')
+      .then(stringifiedUserAccess => {
+        const parsedUserAccessDetails = JSON.parse(stringifiedUserAccess);
+        if (!parsedUserAccessDetails || typeof parsedUserAccessDetails !== 'object') return;
+        setUserAccess(parsedUserAccessDetails);
+      })
+      .catch(err => {
+        console.warn('Error restoring User Access Details from async');
+        console.warn(err);
+      });
+
+  }
 
 
   return (
@@ -12,23 +36,32 @@ const Inventory = ({ navigation }) => {
 
       <View>
 
-        <TouchableOpacity onPress={() => { navigation.navigate("Store Inventory") }}>
-          <View style={styles.card}>
-            <Text style={styles.textContent1}>Store Inventory</Text>
-          </View>
-        </TouchableOpacity>
+        {userAccess.storeinventory ?
+          <TouchableOpacity onPress={() => { navigation.navigate("Store Inventory") }}>
+            <View style={styles.card}>
+              <Text style={styles.textContent1}>Store Inventory</Text>
+            </View>
+          </TouchableOpacity>
+          : null
+        }
 
-        <TouchableOpacity onPress={() => { navigation.navigate("Staff Inventory") }}>
-          <View style={styles.card}>
-            <Text style={styles.textContent1}>Staff Inventory</Text>
-          </View>
-        </TouchableOpacity>
+        {userAccess.staffinventory ?
+          <TouchableOpacity onPress={() => { navigation.navigate("Staff Inventory") }}>
+            <View style={styles.card}>
+              <Text style={styles.textContent1}>My Materials</Text>
+            </View>
+          </TouchableOpacity>
+          : null
+        }
 
-        <TouchableOpacity onPress={() => { navigation.navigate("Return From Staff") }}>
-          <View style={styles.card}>
-            <Text style={styles.textContent1}>Return From Staff</Text>
-          </View>
-        </TouchableOpacity>
+        {userAccess.returnfromstaff ?
+          <TouchableOpacity onPress={() => { navigation.navigate("Return From Staff") }}>
+            <View style={styles.card}>
+              <Text style={styles.textContent1}>Return From Staff</Text>
+            </View>
+          </TouchableOpacity>
+          : null
+        }
 
       </View>
 

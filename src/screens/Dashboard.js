@@ -19,6 +19,7 @@ const Dashboard = ({ navigation }) => {
   const [userToken, setUserToken] = useState("");
   const [userLastIn, setUserLastIn] = useState("");
   const [userLastOut, setUserLastOut] = useState("");
+  const [userAccess, setUserAccess] = useState([]);
 
   useFocusEffect(
     useCallback(() => {
@@ -87,6 +88,17 @@ const Dashboard = ({ navigation }) => {
       })
       .catch(err => {
         console.warn('Error restoring Emp Details from async');
+        console.warn(err);
+      });
+
+      await AsyncStorage.getItem('userAccess')
+      .then(stringifiedUserAccess => {
+        const parsedUserAccessDetails = JSON.parse(stringifiedUserAccess);
+        if (!parsedUserAccessDetails || typeof parsedUserAccessDetails !== 'object') return;
+        setUserAccess(parsedUserAccessDetails);
+      })
+      .catch(err => {
+        console.warn('Error restoring User Access Details from async');
         console.warn(err);
       });
 
@@ -193,9 +205,9 @@ const Dashboard = ({ navigation }) => {
     const locId = qrValueString[0];
     const inOrOut = qrValueString[1];
 
-    if(locId && inOrOut){
+    if (locId && inOrOut) {
       console.log("Got the split values");
-    } else{
+    } else {
       console.log("Proper Split values not found");
     }
 
@@ -366,24 +378,39 @@ const Dashboard = ({ navigation }) => {
                     <Text style={styles.itemTextHeading}>Inventory</Text>
                   </View>
                 </TouchableOpacity>
+                {userAccess.emergency ?
+                  <TouchableOpacity onPress={() => { navigation.navigate("Emergency") }} style={styles.itemContainer}>
+                    <View style={styles.itemContent}>
+                      <Icon name="tungsten" type="material-icons" size={30} color={Colors.primary} style={{ transform: 'rotate(180deg)' }} />
+                      <Text style={styles.itemTextHeading}>Emergency</Text>
+                    </View>
+                  </TouchableOpacity>
+                  :
+                  <TouchableOpacity onPress={() => { }} style={styles.itemContainer1}>
+                    <View style={styles.itemContent}>
 
-                <TouchableOpacity onPress={() => { navigation.navigate("Emergency") }} style={styles.itemContainer}>
-                  <View style={styles.itemContent}>
-                    <Icon name="tungsten" type="material-icons" size={30} color={Colors.primary} style={{ transform: 'rotate(180deg)' }} />
-                    <Text style={styles.itemTextHeading}>Emergency</Text>
-                  </View>
-                </TouchableOpacity>
+                    </View>
+                  </TouchableOpacity>
+                }
 
               </View>
 
               <View style={styles.viewStyle}>
 
-                <TouchableOpacity onPress={() => { navigation.navigate("Issue Material") }} style={styles.itemContainer}>
-                  <View style={styles.itemContent}>
-                    <Icon name="shelves" type="material-icons" size={30} color={Colors.primary} />
-                    <Text style={styles.itemTextHeading}>Issue Material</Text>
-                  </View>
-                </TouchableOpacity>
+                {userAccess.issuematerial ?
+                  <TouchableOpacity onPress={() => { navigation.navigate("Issue Material") }} style={styles.itemContainer}>
+                    <View style={styles.itemContent}>
+                      <Icon name="shelves" type="material-icons" size={30} color={Colors.primary} />
+                      <Text style={styles.itemTextHeading}>Issue Material</Text>
+                    </View>
+                  </TouchableOpacity>
+                  :
+                  <TouchableOpacity onPress={() => { }} style={styles.itemContainer1}>
+                    <View style={styles.itemContent}>
+
+                    </View>
+                  </TouchableOpacity>
+                }
 
                 <TouchableOpacity onPress={() => { }} style={styles.itemContainer1}>
                   <View style={styles.itemContent}>
